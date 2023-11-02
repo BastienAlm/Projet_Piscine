@@ -1,0 +1,29 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /bin/sh docker_start.sh
+    ports:
+      - "4000:4000"
+    environment:
+      - MIX_ENV=prod
+      - DATABASE_URL=postgres://postgres:1234@database:5432/gotham9
+      - SECRET_KEY_BASE=tStXXC5KnU2FXw1i56zy4skoCpni/wThpue7y2+lre4APmxozssJcaPxL11BG+di
+    depends_on:
+      - database
+
+  database:
+    image: postgres:alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: gotham9
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
