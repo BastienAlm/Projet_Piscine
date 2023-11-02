@@ -3,7 +3,6 @@ defmodule Timemanager.Clocks do
   The Clocks context.
   """
 
-  import Ecto.Query, warn: false
   alias Timemanager.Repo
 
   alias Timemanager.Clocks.Clock
@@ -21,13 +20,6 @@ defmodule Timemanager.Clocks do
     Repo.all(Clock)
   end
 
-  def fetch(userID) do
-    query = from m in Clock,
-    where: m.user == ^userID,
-    select: [m.id, m.time, m.status, m.user]
-
-    Repo.all(query)
-  end
 
   @doc """
   Gets a single clock.

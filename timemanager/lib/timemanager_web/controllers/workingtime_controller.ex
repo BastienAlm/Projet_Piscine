@@ -1,8 +1,11 @@
 defmodule TimemanagerWeb.WorkingtimeController do
   use TimemanagerWeb, :controller
 
+  import Ecto.Query
   alias Timemanager.Workingtimes
   alias Timemanager.Workingtimes.Workingtime
+  alias Timemanager.Clocks.Clock
+  alias Timemanager.Repo
 
   action_fallback TimemanagerWeb.FallbackController
 
@@ -11,25 +14,82 @@ defmodule TimemanagerWeb.WorkingtimeController do
     render(conn, :index, workingtimes: workingtimes)
   end
 
-  def create(conn, %{"workingtime" => workingtime_params}) do
-    with {:ok, %Workingtime{} = workingtime} <- Workingtimes.create_workingtime(workingtime_params) do
+  def create(conn, %{"userID" => userID, "workingtime" => workingtime_params}) do
+
+
+    query = from u in Clock,
+      where: u.user == ^userID,
+      select: u
+
+    clock= Repo.all(query)
+    status =  List.last(clock).status
+    count = length(clock)
+    clockout = "1000-01-01T00:00:00"
+    clockin = if status == true do
+                clockin = List.last(clock).time
+               else
+                clockin =  Enum.at(clock, count-2).time
+             end
+    newworkingtime = Map.merge(workingtime_params, %{"start" => clockin, "end" => clockout , "user" => userID})
+
+    with {:ok, %Workingtime{} = workingtime} <- Workingtimes.create_workingtime(newworkingtime) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", ~p"/api/workingtimes/#{workingtime}")
-      |> render(:show, workingtime: workingtime)
+      |> render(:shows, workingtime: workingtime)
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    workingtime = Workingtimes.get_workingtime!(id)
+  def show(conn, %{"userID" => userID}) do
+
+    query =
+      from u in Workingtime,
+      where: u.user == ^userID,
+      select: u
+    workingtime = Repo.all(query)
     render(conn, :show, workingtime: workingtime)
   end
 
-  def update(conn, %{"id" => id, "workingtime" => workingtime_params}) do
-    workingtime = Workingtimes.get_workingtime!(id)
+  def showbyid(conn, %{"userID" => userID, "id" => id}) do
 
-    with {:ok, %Workingtime{} = workingtime} <- Workingtimes.update_workingtime(workingtime, workingtime_params) do
-      render(conn, :show, workingtime: workingtime)
+    query =
+      from u in Workingtime,
+      where: u.user == ^userID and u.id == ^id,
+      select: u
+    workingtimes = Repo.all(query)
+
+    render(conn, :index, workingtimes: workingtimes)
+
+  end
+
+  def update(conn, %{"userID" => userID, "workingtime" => workingtime_params}) do
+
+    query = from u in Clock,
+      where: u.user == ^userID,
+      select: u
+
+    clock= Repo.all(query)
+    status =  List.last(clock).status
+    count = length(clock)
+
+    clockout = if status == false do
+      clockout = List.last(clock).time
+     else
+      clockout =  Enum.at(clock, count-2).time
+   end
+
+   query = from u in Workingtime,
+      where: u.user == ^userID,
+      select: u
+
+    workingtime = Repo.all(query)
+
+    newworkingtime = List.last(workingtime)
+
+    updateworkingtime = Map.merge(workingtime_params, %{"end" => clockout}); # clock out by update
+
+    with {:ok, %Workingtime{} = workingtime} <- Workingtimes.update_workingtime(newworkingtime, updateworkingtime) do
+      render(conn, :shows, workingtime: workingtime)
     end
   end
 

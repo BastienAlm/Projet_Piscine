@@ -19,9 +19,19 @@ defmodule TimemanagerWeb.Router do
     pipe_through :api
 
     resources "/users", UserController
+
     resources "/clocks", ClockController, except: [:create, :show]
     post "/clocks/:userID", ClockController, :create
     get "/clocks/:userID", ClockController, :show
+
+    #resources "/workingtimes", WorkingtimeController, except: [:create, :show, :update]
+    post "/workingtimes/:userID", WorkingtimeController, :create
+    get "/workingtimes/:userID", WorkingtimeController, :show
+    get "/workingtimes/:userID/:id", WorkingtimeController, :showbyid
+    put "/workingtimes/:userID", WorkingtimeController, :update
+
+
+
 
   end
 

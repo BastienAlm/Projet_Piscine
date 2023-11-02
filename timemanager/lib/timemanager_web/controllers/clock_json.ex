@@ -11,7 +11,11 @@ defmodule TimemanagerWeb.ClockJSON do
   @doc """
   Renders a single clock.
   """
-  def show(%{clock: clock}) do
+  def show(%{clock: clocks}) do
+    %{data: for(clock <- clocks, do: data(clock))}
+  end
+
+  def shows(%{clock: clock}) do
     %{data: data(clock)}
   end
 
