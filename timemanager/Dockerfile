@@ -4,8 +4,7 @@ RUN mkdir /app
 WORKDIR /app
 COPY . .
 
-RUN apk update && \
-    apk --no-cache add git build-base nodejs npm inotify-tools
+RUN apk update 
 
 RUN mix local.hex --force && \
     mix local.rebar --force

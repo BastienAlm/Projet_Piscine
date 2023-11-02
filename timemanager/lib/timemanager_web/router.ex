@@ -24,11 +24,11 @@ defmodule TimemanagerWeb.Router do
     post "/clocks/:userID", ClockController, :create
     get "/clocks/:userID", ClockController, :show
 
-    #resources "/workingtimes", WorkingtimeController, except: [:create, :show, :update]
+    resources "/workingtimes", WorkingtimeController, except: [:create, :show, :update]
     post "/workingtimes/:userID", WorkingtimeController, :create
     get "/workingtimes/:userID", WorkingtimeController, :show
     get "/workingtimes/:userID/:id", WorkingtimeController, :showbyid
-    put "/workingtimes/:userID", WorkingtimeController, :update
+    put "/workingtimes/:id", WorkingtimeController, :update
 
 
 

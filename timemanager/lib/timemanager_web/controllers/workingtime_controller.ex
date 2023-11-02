@@ -24,12 +24,9 @@ defmodule TimemanagerWeb.WorkingtimeController do
     clock= Repo.all(query)
     status =  List.last(clock).status
     count = length(clock)
-    clockout = "1000-01-01T00:00:00"
-    clockin = if status == true do
-                clockin = List.last(clock).time
-               else
-                clockin =  Enum.at(clock, count-2).time
-             end
+    clockout = DateTime.utc_now();
+    clockin = List.last(clock).time
+
     newworkingtime = Map.merge(workingtime_params, %{"start" => clockin, "end" => clockout , "user" => userID})
 
     with {:ok, %Workingtime{} = workingtime} <- Workingtimes.create_workingtime(newworkingtime) do
@@ -62,33 +59,14 @@ defmodule TimemanagerWeb.WorkingtimeController do
 
   end
 
-  def update(conn, %{"userID" => userID, "workingtime" => workingtime_params}) do
+  def update(conn, %{"id" => id, "workingtime" => workingtime_params}) do
 
-    query = from u in Clock,
-      where: u.user == ^userID,
-      select: u
-
-    clock= Repo.all(query)
-    status =  List.last(clock).status
-    count = length(clock)
-
-    clockout = if status == false do
-      clockout = List.last(clock).time
-     else
-      clockout =  Enum.at(clock, count-2).time
-   end
-
-   query = from u in Workingtime,
-      where: u.user == ^userID,
-      select: u
-
-    workingtime = Repo.all(query)
-
-    newworkingtime = List.last(workingtime)
+   workingtime = Workingtimes.get_workingtime!(id)
+   clockout = DateTime.utc_now();
 
     updateworkingtime = Map.merge(workingtime_params, %{"end" => clockout}); # clock out by update
 
-    with {:ok, %Workingtime{} = workingtime} <- Workingtimes.update_workingtime(newworkingtime, updateworkingtime) do
+    with {:ok, %Workingtime{} = workingtime} <- Workingtimes.update_workingtime(workingtime, updateworkingtime) do
       render(conn, :shows, workingtime: workingtime)
     end
   end
