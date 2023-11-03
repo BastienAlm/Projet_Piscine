@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style scoped>
-.div {
+.div { font-family: 'Courier New', Courier, monospace;
     
 }
 </style>

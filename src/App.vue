@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <Header />
+    <Navbar />
     <User :users="users" />
   </div>
 </template>
@@ -8,11 +9,14 @@
 <script>
 import Header from "./components/Header";
 import User from "./components/user";
+import Navbar from "./components/NavbarHead.vue";
+
 export default {
   name: "App",
   components: {
     Header,
     User,
+    Navbar,
   },
   data() {
     return {
