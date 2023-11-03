@@ -1,4 +1,5 @@
 <template>
+  <Header/>
   <div class="row">
     <div class="column1" style="background-color: #aaa">
       <div style="font-size: large; font-weight: 700; height: 25px">
@@ -8,7 +9,7 @@
         <h5>Search Employee</h5>                                  
       </div>
       <div class="custom1">
-        <form @submit.prevent="getData">
+        <form @submit.prevent="getUser">
           <label style="font-size: 14px" for="fname">User Id: &nbsp</label>
           <input
             style="border-radius: 3px; border-style: none"
@@ -61,7 +62,7 @@
         <h4>Update employee</h4>
       </div>
       <div class="custom">
-        <form @submit.prevent="ReloadUser">
+        <form @submit.prevent="updateUser">
           <label style="font-size: 14px; margin-left: 22%" for="fname"
             >User Id: &nbsp</label
           >
@@ -70,7 +71,7 @@
             type="text"
             id="updateId"
             name="updateId"
-            v-model="UpdateUser.id"
+            v-model="ReloadUser.id"
           />&nbsp &nbsp &nbsp &nbsp
           <label style="font-size: 14px" for="fname">Username: &nbsp</label>
           <input
@@ -78,7 +79,7 @@
             type="text"
             id="updatename"
             name="updatename"
-            v-model="UpdateUser.username"
+            v-model="ReloadUser.username"
           />
           <br />
           <br />
@@ -88,7 +89,7 @@
             type="text"
             id="updateemail"
             name="updateemail"
-            v-model="UpdateUser.email"
+            v-model="ReloadUser.email"
           />
           <span>&nbsp</span>
           <input type="submit"/>
@@ -124,8 +125,12 @@
 
 <script>
 import axios from 'axios';
+import Header from './Header.vue';
 export default {
   name: "User",
+  components: {
+    Header
+  },
   props: { users: Array },
 
   data() {
@@ -145,7 +150,7 @@ export default {
             role: "employee"
         }
       },
-      UpdateUser: {
+      ReloadUser: {
         id: "",
         email: "",
         username: "",
@@ -153,7 +158,7 @@ export default {
     };
   },
   methods: {
-    async getData() {
+    async getUser() {
       try {
         let response = await fetch(
           `http://localhost:4000/api/users/${
@@ -195,13 +200,13 @@ export default {
         alert("Error", error); 
       }
     },
-    ReloadUser() {
+    UpdateUser() {
       try {
-        axios.put(`http://localhost:4000/api/users/${this.UpdateUser.id}`, 
+        axios.put(`http://localhost:4000/api/users/${this.ReloadUser.id}`, 
         {
           "user": {
-            "username": this.UpdateUser.username,
-            "email": this.UpdateUser.email,
+            "username": this.ReloadUser.username,
+            "email": this.ReloadUser.email,
           }
         }
         )
@@ -251,7 +256,7 @@ export default {
   position: relative;
 }
 .column2 {
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   flex: 65%;
   padding: 10px;
