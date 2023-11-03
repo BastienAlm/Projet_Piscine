@@ -1,5 +1,6 @@
 <template>
   <Header/>
+  <NavbarHead/>
   <div class="row">
     <div class="column1" style="background-color: #aaa">
       <div style="font-size: large; font-weight: 700; height: 25px">
@@ -126,10 +127,12 @@
 <script>
 import axios from 'axios';
 import Header from './Header.vue';
+import NavbarHead from './NavbarHead.vue';
 export default {
   name: "User",
   components: {
-    Header
+    Header,
+    NavbarHead
   },
   props: { users: Array },
 
