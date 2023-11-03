@@ -5,6 +5,7 @@
   </div>
   <!-- <div v-if="isAuthenticated()" class="container">
     <Header />
+    <Navbar />
     <User :users="users" />
   </div>
   <div v-else>
@@ -27,6 +28,7 @@
 // import Header from "./components/Header";
 import User from "./components/user";
 //import { isAuthenticated } from "./_helpers/auth-gard";
+
 export default {
   name: "App",
   components: {

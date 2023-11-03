@@ -14,7 +14,6 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
   background-color: lightblue;
 }
 </style>
