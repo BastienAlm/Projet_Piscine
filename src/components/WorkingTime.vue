@@ -4,7 +4,8 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
+import { INITIAL_EVENTS, createEventId, workingTimes, workingsTable } from './event-utils'
+import axios from 'axios'
 
 export default defineComponent({
   components: {
@@ -24,7 +25,8 @@ export default defineComponent({
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         initialView: 'dayGridMonth',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
+        initialEvents: INITIAL_EVENTS,
         editable: true,
         selectable: true,
         selectMirror: true,
@@ -40,6 +42,12 @@ export default defineComponent({
         */
       },
       currentEvents: [],
+      workingTimesObject:{
+        workingtime:{
+
+        }
+      }
+
     }
   },
   methods: {
@@ -47,30 +55,84 @@ export default defineComponent({
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
     },
     handleDateSelect(selectInfo) {
-      let title = prompt('Please enter a new title for your event')
+      let title = prompt('Please enter a new title for your working time')
       let calendarApi = selectInfo.view.calendar
 
       calendarApi.unselect() // clear date selection
 
       if (title) {
+        this.createWorkingTime();
         calendarApi.addEvent({
           id: createEventId(),
           title,
           start: selectInfo.startStr,
           end: selectInfo.endStr,
-          allDay: selectInfo.allDay
+          // allDay: selectInfo.allDay
         })
+        this.$router.go();
       }
+      
     },
     handleEventClick(clickInfo) {
       if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
         clickInfo.event.remove()
+        this.removeWorkingTime(clickInfo.event.id)
+        
       }
     },
     handleEvents(events) {
       this.currentEvents = events
     },
-  }
+    createWorkingTime() {
+      try {
+        axios.post("http://localhost:4000/api/workingtimes/1", this.workingTimesObject)
+        .then((response) => {
+          
+          alert("workingTimes created");
+          workingTimes();
+        }).catch(
+          (error) =>
+          alert("check fields and unique email"));
+          //window.location.reload("500"));
+          
+      }
+      catch (error) {
+        console.log(error);
+        alert("Error", error); 
+      }
+    },
+    removeWorkingTime(id) {
+      try {
+        axios.post(`http://localhost:4000/api/workingtimes/${id}`)
+        .then((response) => {
+         
+          alert("workingTimes deleted");
+          workingTimes();
+        }).catch(
+          (error) =>
+          alert("check id"));
+          //window.location.reload("500"));
+          
+      }
+      catch (error) {
+        console.log(error);
+        alert("Error", error); 
+      }
+    },
+
+  },
+  mounted(){
+    console.log(INITIAL_EVENTS);
+    console.log(workingsTable);
+    this.test = localStorage.getItem("workingtime");
+    console.log(this.test);
+  },
+  // created(){
+  //   workingTimes();
+  // },
+  // updated(){
+  //   workingTimes();
+  // }
 })
 
 </script>
@@ -81,9 +143,9 @@ export default defineComponent({
       <div class='demo-app-sidebar-section'>
         <h2>Instructions</h2>
         <ul>
-          <li>Select dates and you will be prompted to create a new event</li>
-          <li>Drag, drop, and resize events</li>
-          <li>Click an event to delete it</li>
+          <li>Select dates and you will be prompted to create a new clockTime</li>
+          <li>Drag, drop, and resize worksTimes / clockTimes</li>
+          <li>Click an workingTime to delete it</li>
         </ul>
       </div>
       <div class='demo-app-sidebar-section'>
@@ -97,7 +159,7 @@ export default defineComponent({
         </label>
       </div>
       <div class='demo-app-sidebar-section'>
-        <h2>All Events ({{ currentEvents.length }})</h2>
+        <h2>All workingTimes ({{ currentEvents.length }})</h2>
         <ul>
           <li v-for='event in currentEvents' :key='event.id'>
             <b>{{ event.startStr }}</b>

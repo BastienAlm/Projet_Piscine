@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1 @click="getWorkingTimes">Working Times</h1>
-    <div v-for="(working, index) in workingsTable" :key="index" class="first">
+    <div class="container">
+      <div v-for="(working, index) in workingsTable" :key="index" class="first">
       <div class="second">
         <div class="third">
           <div class="month">
@@ -24,6 +25,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
@@ -197,5 +199,9 @@ export default {
   font-size: 0.75rem;
   line-height: 1rem; 
   line-height: 1.5;
+}
+
+.container {
+  display: flex;
 }
 </style>
