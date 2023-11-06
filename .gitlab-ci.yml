@@ -11,7 +11,7 @@ Build:
     - docker:19-dind
   before_script:
     - apk add --no-cache curl jq python3 py3-pip
-    - docker login --username pavlotchof --password-stdin Pavlo12345.docker
+    - $DOCKER_PASSWORD | docker login --username $DOCKER_REGISTRY --password-stdin $DOCKER_REGISTRY
   script:
     - docker build -t $DOCKER_REGISTRY/gotham-api .
     - docker tag $DOCKER_REGISTRY/gotham-api:latest
