@@ -1,10 +1,10 @@
 <template>
     <div class="nav">
-        <a href="#">User ID</a>
-        <a href="#">Create User</a>
-        <a href="#">Update User</a>
-        <a href="#">Delete User</a>
-        <a href="#">Working time</a>
+        <router-link to="/workingTimes/1">WorkingTimes</router-link>
+        <router-link to="/workingTime/1">create a WorkingTime</router-link>
+        <router-link to="/workingTime/:userid/:id">WorkingTime</router-link>
+        <router-link to="/clock/:userid">clock</router-link>
+        <router-link to="/chartManager/1">chart</router-link>
     </div>
 </template>
 <script>
@@ -14,9 +14,11 @@ export default {
 </script>
 <style>
 .nav{
+    display: flex;
     background-color: #333;
     overflow: hidden;
     margin-bottom: 15px;
+    justify-content: space-around;
 }
 .nav a {
     float: left;
@@ -29,5 +31,12 @@ export default {
 .nav a:hover{
     background-color: lightblue;
     color: #333
+}
+
+.router-link-active ,.router-link-exact-active {
+    color: #000 !important;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: lightblue;
 }
 </style>

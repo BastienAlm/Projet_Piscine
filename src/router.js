@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { isAuthenticated } from "./_helpers/auth-gard";
 
 const routes = [
     {
@@ -26,10 +27,6 @@ const routes = [
         name: 'chartManager',
         component: () => import('./components/ChartManager.vue'),
         children: [
-            // {
-            //     path: '', // Route vide pour la redirection par défaut
-            //     redirect: '/merchants/list', // Rediriger par défaut vers la route "list"
-            //   },
             {
                 path: '',
                 name: "BarChart",
@@ -60,9 +57,15 @@ const routes = [
                 path: "radar",
                 name: "RadarChart",
                 component: () => import("./components/charts/RadarChart.vue"),
-            },
+            }
+
             
         ],
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('./components/Login.vue')
     }
 ]
 
@@ -73,11 +76,14 @@ const router = createRouter({
 });
 
 // Vérouillage de la partie admin (token)
-router.beforeEach((to) => {
-    // if(to.matched[0].name == 'admin'){
-    //   authGuard()
-    // }
-    return true;
-})
+// router.beforeEach((to) => {
+//    console.log(to.matched[0].name);
+//    if (
+//     // make sure the user is authenticated
+//     !isAuthenticated() 
+//   ) {
+//     // redirect the user to the login page
+//     return { name: 'Login' }
+// }});
   
 export default router;
