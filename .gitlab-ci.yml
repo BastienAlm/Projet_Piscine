@@ -13,8 +13,7 @@ Build:
     - apk add --no-cache curl jq python3 py3-pip
     - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
   script:
-    - docker build -t $DOCKER_REGISTRY/gotham-api .
-    - docker tag $DOCKER_REGISTRY/gotham-api:latest
+    - docker build -t $DOCKER_REGISTRY/gotham-api:latest .
     - docker push $DOCKER_REGISTRY/gotham-api:latest
 
 Deploy:
