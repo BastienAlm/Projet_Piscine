@@ -121,12 +121,12 @@ export default defineComponent({
     },
 
   },
-  mounted(){
-    console.log(INITIAL_EVENTS);
-    console.log(workingsTable);
-    this.test = localStorage.getItem("workingtime");
-    console.log(this.test);
-  },
+  // mounted(){
+  //   console.log(INITIAL_EVENTS);
+  //   console.log(workingsTable);
+  //   this.test = localStorage.getItem("workingtime");
+  //   console.log(this.test);
+  // },
   // created(){
   //   workingTimes();
   // },

@@ -34,7 +34,8 @@ export async function workingTimes () {
           console.log(response.data.data);
           for(let i = 0; i < response.data.data.length; i++){
               let myObj = {
-                id: response.data.data[i].id,
+                // id: response.data.data[i].id,
+                id: createEventId(),
                 title: 'workingTime',
                 start: response.data.data[i].start,
               }
