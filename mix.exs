@@ -59,6 +59,7 @@ defmodule Timemanager.MixProject do
   #
   #     $ mix setup
   #
+  #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
