@@ -13,8 +13,6 @@ COPY mix.exs mix.lock ./
 
 RUN mix do deps.get, deps.compile
 
-ENV MIX_ENV=prod
-
 RUN mix compile
 
 RUN mix release

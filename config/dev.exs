@@ -5,7 +5,7 @@ config :timemanager, Timemanager.Repo,
   username: "postgres",
   password: "1234",
   hostname: "database",
-  database: "gotham8",
+  database: "gotham",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
