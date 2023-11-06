@@ -69,7 +69,7 @@ export default defineComponent({
           end: selectInfo.endStr,
           // allDay: selectInfo.allDay
         })
-        this.$router.go();
+        // this.$router.go();
       }
       
     },

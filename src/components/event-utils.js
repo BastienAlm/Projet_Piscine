@@ -3,7 +3,6 @@ import moment from 'moment';
 let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 export const workingsTable = []
-workingTimes()
 export const INITIAL_EVENTS = [
 ]
 export const labels = []
@@ -35,7 +34,7 @@ export async function workingTimes () {
           for(let i = 0; i < response.data.data.length; i++){
               let myObj = {
                 // id: response.data.data[i].id,
-                id: createEventId(),
+                id: response.data.data[i].id,
                 title: 'workingTime',
                 start: response.data.data[i].start,
               }
@@ -89,3 +88,5 @@ export function getMinute(datetime) {
   const minute = date.getMinutes();
   return minute;
 }
+
+workingTimes()
