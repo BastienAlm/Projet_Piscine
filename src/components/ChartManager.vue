@@ -4,15 +4,15 @@
         <ul class="container">     
             <li><router-link to='/chartManager/1'>Bar</router-link></li>
             <li>&nbsp;</li>
-            <li><router-link to='/chartManager/1/bubble'>Bubble</router-link></li>
-            <li>&nbsp;</li>
+            <!-- <li><router-link to='/chartManager/1/bubble'>Bubble</router-link></li>
+            <li>&nbsp;</li> -->
             <li><router-link to='/chartManager/1/dognhut'>Dognhut</router-link></li>
             <li>&nbsp;</li>
             <li><router-link to='/chartManager/1/line'>Line</router-link></li>
             <li>&nbsp;</li>
             <li><router-link to='/chartManager/1/polar'>Polar</router-link></li>
-            <li>&nbsp;</li>
-            <li><router-link to='/chartManager/1/radar'>Radar</router-link></li>
+            <!-- <li>&nbsp;</li>
+            <li><router-link to='/chartManager/1/radar'>Radar</router-link></li> -->
         </ul>
         <!-- <BarChartVue/> -->
         <router-view></router-view>

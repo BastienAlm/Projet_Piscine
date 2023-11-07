@@ -269,7 +269,7 @@ function clockIn(){
 
 async function clockOut(){
 	try {
-        await axios.get(`http://localhost:4000/api/workingtimes/1`, workingTimesObject)
+        await axios.post(`http://localhost:4000/api/workingtimes/1`, workingTimesObject)
         .then(async (response) => {
 			alert("workingTime cretaed")
         }).catch((error) => {

@@ -4,7 +4,7 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId, workingTimes, workingsTable } from './event-utils'
+import * as config from './event-utils'
 import axios from 'axios'
 
 export default defineComponent({
@@ -13,7 +13,7 @@ export default defineComponent({
   },
   data() {
     return {
-      calendarOptions: {
+      calendarOptions : {
         plugins: [
           dayGridPlugin,
           timeGridPlugin,
@@ -26,7 +26,7 @@ export default defineComponent({
         },
         initialView: 'timeGridWeek',
         // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-        initialEvents: INITIAL_EVENTS,
+        initialEvents: config.INITIAL_EVENT,
         editable: true,
         selectable: true,
         selectMirror: true,
@@ -46,7 +46,9 @@ export default defineComponent({
         workingtime:{
 
         }
-      }
+      },
+      eventGuid : 0,
+      data : []
 
     }
   },
@@ -81,7 +83,9 @@ export default defineComponent({
       }
     },
     handleEvents(events) {
+      this.getDatas();
       this.currentEvents = events
+      
     },
     createWorkingTime() {
       try {
@@ -119,19 +123,18 @@ export default defineComponent({
         alert("Error", error); 
       }
     },
+    async getDatas(){
+      const value = await config.workingTimes();
+      // let datas = value.data.data;
+      // this.$data.data = [...datas];
+    },
+    createEventId() {
+      return String(this.eventGuid++)
+    }
 
-  },
-  // mounted(){
-  //   console.log(INITIAL_EVENTS);
-  //   console.log(workingsTable);
-  //   this.test = localStorage.getItem("workingtime");
-  //   console.log(this.test);
-  // },
-  // created(){
-  //   workingTimes();
-  // },
-  updated(){
-    console.log({INITIAL_EVENTS});
+  },computed:{
+  },created(){
+    this.getDatas();
   }
 })
 

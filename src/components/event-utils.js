@@ -4,20 +4,11 @@ let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 export const workingsTable = []
 
+export let INITIAL_EVENT = []
 export const dataItems = []
 
-// const increment = Number(localStorage.getItem('length'));
+//export const 
 
-// for (var i = 0; i < increment; i++){
-//   console.log(localStorage.length);
-//   const value = JSON.parse(localStorage.getItem('workingtime'))
-//   console.log(value);
-//   INITIAL_EVENTS.push({
-//     id: value[i].id,
-//     title: 'workingTime',
-//     start: value[i].start
-//   })
-// }
 
 export function createEventId() {
   return String(eventGuid++)
@@ -26,41 +17,12 @@ export function createEventId() {
 export async function workingTimes() {
     try {
        const result =  await axios.get("http://localhost:4000/api/workingtimes/1")
-       //let datas = result.data.data.map((rep, index) => ({"id": rep.id, "title":"workingtime", "start": rep.start}));
+       INITIAL_EVENT=  result.data.data.map((rep, index) => ({"id": rep.id, "title":"workingtime", "start": rep.start}));
+       console.log("resultat", result.data.data);
         return result;
        
       //  .then(async (response) => {
 
-
-      //    console.log(data)
-      //   // return   data;
-      //       // const data =  response.data;
-      //     // console.log(data);
-      //     // for(let i = 0; i < response.data.data.length; i++){
-      //     //     let myObj = {
-      //     //       // id: response.data.data[i].id,
-      //     //       id: response.data.data[i].id+'',
-      //     //       title: 'workingTime',
-      //     //       start: response.data.data[i].start,
-      //     //     }
-      //     //     INITIAL_EVENTS.push(myObj)
-      //     //     const test = dateFormat(response.data.data[i].end);
-      //     //     //labels.push(getMonth(test))
-      //     //     console.log(getMinute(test));
-      //     //     labels.push(getDayName(test))
-      //     //     dataItems.push(getMinute(test))
-      //     //    response.data.data[i].end = dateFormat(response.data.data[i].end);
-      //     //    response.data.data[i].start = dateFormat(response.data.data[i].start);
-      //     //    workingsTable.push(response.data.data[i]);
-      //     // }
-      //     //console.log(labels);
-      //     //console.log(INITIAL_EVENTS);
-      //     // console.log(workingsTable);
-      //     // console.log(INITIAL_EVENTS);
-      //     // workingsTable.push(response.data.data);
-      //   }).catch((error) => {
-      //     console.log(error);
-      //   })
     } catch (error) {
         console.log(error)
     }

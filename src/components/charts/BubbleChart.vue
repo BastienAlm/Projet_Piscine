@@ -72,7 +72,7 @@ export default {
             const test = this.labels.map((rep,index) =>{
                 return{
                     "label": this.labels[index],
-                    "backgroundColor": this.generateRandomColor(),
+                    "backgroundColor": "##841f22",
                     "data": this.minutes.map((rep, index) => {
                         return {
                             "x":rep,
