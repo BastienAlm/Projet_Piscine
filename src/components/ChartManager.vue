@@ -10,9 +10,9 @@
             <li>&nbsp;</li>
             <li><router-link to='/chartManager/1/line'>Line</router-link></li>
             <li>&nbsp;</li>
-            <li><router-link to='/chartManager/:userid/polar'>Polar</router-link></li>
+            <li><router-link to='/chartManager/1/polar'>Polar</router-link></li>
             <li>&nbsp;</li>
-            <li><router-link to='/chartManager/:userid/radar'>Radar</router-link></li>
+            <li><router-link to='/chartManager/1/radar'>Radar</router-link></li>
         </ul>
         <!-- <BarChartVue/> -->
         <router-view></router-view>
