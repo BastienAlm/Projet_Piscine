@@ -8,7 +8,7 @@
             <li>&nbsp;</li>
             <li><router-link to='/chartManager/1/dognhut'>Dognhut</router-link></li>
             <li>&nbsp;</li>
-            <li><router-link to='/chartManager/:userid/line'>Line</router-link></li>
+            <li><router-link to='/chartManager/1/line'>Line</router-link></li>
             <li>&nbsp;</li>
             <li><router-link to='/chartManager/:userid/polar'>Polar</router-link></li>
             <li>&nbsp;</li>

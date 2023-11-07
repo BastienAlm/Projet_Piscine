@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import * as config from '../event-utils'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -28,20 +29,39 @@ export default {
   components: {
     Line
   },
+  methods:{
+    async getData(){
+      const value = await config.workingTimes();
+      let datas = value.data.data.map((rep) => rep.start);
+      const date = datas.map((rep) => new Date(rep))      
+      this.labels = date.map((rep) => config.getMonth(rep));
+      this.minutes = date.map((rep) => config.getMinute(rep))
+    }
+  },
+  computed:{
+    data(){
+      this.getData()
+      const data = {
+        labels: [],
+        datasets: [
+        {
+        label: 'Working Time',
+        backgroundColor: '#f87979',
+        data: []
+        }]
+      }
+      data.labels = this.labels
+      data.datasets[0].data = this.minutes
+      return data;
+    }
+  },
   data() {
     return {
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 39, 10, 40, 39, 80, 40]
-            }]
-        },
-        options: {
-            responsive: true,
-        }
+      options: {
+        responsive: true,
+      },
+      labels: [],
+      minutes : []
     }
   }
 
