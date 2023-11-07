@@ -3,66 +3,78 @@ import moment from 'moment';
 let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 export const workingsTable = []
-export const INITIAL_EVENTS = [
-]
-export const labels = []
-export const data = []
 
-const increment = Number(localStorage.getItem('length'));
+export const dataItems = []
 
-for (var i = 0; i < increment; i++){
-  console.log(localStorage.length);
-  const value = JSON.parse(localStorage.getItem('workingtime'))
-  console.log(value);
-  INITIAL_EVENTS.push({
-    id: value[i].id,
-    title: 'workingTime',
-    start: value[i].start
-  })
-}
+// const increment = Number(localStorage.getItem('length'));
+
+// for (var i = 0; i < increment; i++){
+//   console.log(localStorage.length);
+//   const value = JSON.parse(localStorage.getItem('workingtime'))
+//   console.log(value);
+//   INITIAL_EVENTS.push({
+//     id: value[i].id,
+//     title: 'workingTime',
+//     start: value[i].start
+//   })
+// }
 
 export function createEventId() {
   return String(eventGuid++)
 }
 
-export async function workingTimes () {
+export async function workingTimes() {
     try {
-        await axios.get(`http://localhost:4000/api/workingtimes/1`)
-        .then(async (response) => {
-            const data = await response.data.data;
-          console.log(response.data.data);
-          for(let i = 0; i < response.data.data.length; i++){
-              let myObj = {
-                // id: response.data.data[i].id,
-                id: response.data.data[i].id,
-                title: 'workingTime',
-                start: response.data.data[i].start,
-              }
-              const test = dateFormat(response.data.data[i].end);
-              // labels.push(getMonth(test))
-              labels.push(getDayName(test))
-              data.push(getMinute(test))
-             workingsTable.push(myObj);
-          //   response.data.data[i].end = this.dateFormat(response.data.data[i].end);
-          //   response.data.data[i].start = this.dateFormat(response.data.data[i].start);
-          //   this.workingsTable.push(response.data.data[i]);
-          }
-          console.log(labels);
-          const value = JSON.stringify(workingsTable)
-          const length = workingsTable.length
-          localStorage.setItem('workingtime', value)
-          localStorage.setItem('length', length)
-          console.log(workingsTable);
-          console.log(INITIAL_EVENTS);
-          // this.workingsTable.push(response.data.data);
-        }).catch((error) => {
-          console.log(error);
-        })
+       const result =  await axios.get("http://localhost:4000/api/workingtimes/1")
+       //let datas = result.data.data.map((rep, index) => ({"id": rep.id, "title":"workingtime", "start": rep.start}));
+        return result;
+       
+      //  .then(async (response) => {
+
+
+      //    console.log(data)
+      //   // return   data;
+      //       // const data =  response.data;
+      //     // console.log(data);
+      //     // for(let i = 0; i < response.data.data.length; i++){
+      //     //     let myObj = {
+      //     //       // id: response.data.data[i].id,
+      //     //       id: response.data.data[i].id+'',
+      //     //       title: 'workingTime',
+      //     //       start: response.data.data[i].start,
+      //     //     }
+      //     //     INITIAL_EVENTS.push(myObj)
+      //     //     const test = dateFormat(response.data.data[i].end);
+      //     //     //labels.push(getMonth(test))
+      //     //     console.log(getMinute(test));
+      //     //     labels.push(getDayName(test))
+      //     //     dataItems.push(getMinute(test))
+      //     //    response.data.data[i].end = dateFormat(response.data.data[i].end);
+      //     //    response.data.data[i].start = dateFormat(response.data.data[i].start);
+      //     //    workingsTable.push(response.data.data[i]);
+      //     // }
+      //     //console.log(labels);
+      //     //console.log(INITIAL_EVENTS);
+      //     // console.log(workingsTable);
+      //     // console.log(INITIAL_EVENTS);
+      //     // workingsTable.push(response.data.data);
+      //   }).catch((error) => {
+      //     console.log(error);
+      //   })
     } catch (error) {
         console.log(error)
     }
 }
 
+export async function getLabel(){
+      
+  const data = await workingTimes()
+
+  const labelsItems  = data.map((label,index) => labels.push((getDayName(dateFormat(label.start)))))
+   console.log({labelsItems});
+ }
+
+ 
 export function getMonth(datetime) {
   const date = new Date(datetime); // Replace this with your actual date object
   const month = date.getMonth();
@@ -88,5 +100,5 @@ export function getMinute(datetime) {
   const minute = date.getMinutes();
   return minute;
 }
-
+export const labels = []
 workingTimes()

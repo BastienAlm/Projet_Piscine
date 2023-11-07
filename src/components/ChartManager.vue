@@ -2,7 +2,7 @@
     <div>
         <h1>Chart Manager</h1>
         <ul class="container">     
-            <li><router-link to='/chartManager/:userid'>Bar</router-link></li>
+            <li><router-link to='/chartManager/1'>Bar</router-link></li>
             <li>&nbsp;</li>
             <li><router-link to='/chartManager/:userid/bubble'>Bubble</router-link></li>
             <li>&nbsp;</li>

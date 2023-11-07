@@ -24,7 +24,7 @@ export default defineComponent({
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-        initialView: 'dayGridMonth',
+        initialView: 'timeGridWeek',
         // initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
         initialEvents: INITIAL_EVENTS,
         editable: true,
@@ -89,7 +89,7 @@ export default defineComponent({
         .then((response) => {
           
           alert("workingTimes created");
-          workingTimes();
+          // workingTimes();
         }).catch(
           (error) =>
           alert("check fields and unique email"));
@@ -107,7 +107,7 @@ export default defineComponent({
         .then((response) => {
          
           alert("workingTimes deleted");
-          workingTimes();
+          // workingTimes();
         }).catch(
           (error) =>
           alert("check id"));
@@ -130,9 +130,9 @@ export default defineComponent({
   // created(){
   //   workingTimes();
   // },
-  // updated(){
-  //   workingTimes();
-  // }
+  updated(){
+    console.log({INITIAL_EVENTS});
+  }
 })
 
 </script>

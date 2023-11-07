@@ -1,4 +1,5 @@
 <template>
+	<h1>Clock Manager</h1>
 	<div class='timer p-4 rounded shadow-lg hover:shadow-2xl transition ease-in-out text-center flex flex-col justify-center bg-white relative overflow-hidden' @click='globalClick'>
 		<div class='w-full rounded-t absolute top-0 left-0'>
 			<div class='h-2 bg-black opacity-25' :style="{ width: percentage * 100 + '%' }" v-if='!countingUp'>
@@ -45,6 +46,7 @@ svg[style*="vertical-align"] {
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios';
 
 const emit = defineEmits(['remove'])
 
@@ -69,6 +71,16 @@ const convertTimeFromString = (string = '') => {
 	else return NaN
 }
 
+const clockObject = {
+	clock:{}
+}
+
+const workingTimesObject = {
+workingtime:{
+
+}
+}
+
 const props = defineProps(['id'])
 
 let displayTitle = ref('Timer'),
@@ -87,7 +99,9 @@ let displayTitle = ref('Timer'),
 function start() {
 	let nowTimestamp = Date.now()
 	let targetTime = defaultSeconds
+	clockIn();
 	if (pausedDifference) {
+		console.log("test");
 		targetTime = pausedDifference
 		pausedDifference = 0
 	}
@@ -117,6 +131,7 @@ function pause() {
 }
 
 function stop() {
+	clockOut()
 	if (isStarted) pause()
 	reset()
 	updateDisplay()
@@ -232,6 +247,37 @@ async function retime() {
 
 function globalClick() {
 	isBlinking = false
+}
+
+function clockIn(){
+	try {
+        axios.post("http://localhost:4000/api/clocks/1", clockObject)
+        .then((response) => {
+          
+          alert("clock created");
+        }).catch(
+          (error) =>
+          alert("check fields and unique email"));
+          //window.location.reload("500"));
+          
+      }
+      catch (error) {
+        console.log(error);
+        alert("Error", error); 
+      }
+}
+
+async function clockOut(){
+	try {
+        await axios.get(`http://localhost:4000/api/workingtimes/1`, workingTimesObject)
+        .then(async (response) => {
+			alert("workingTime cretaed")
+        }).catch((error) => {
+          console.log(error);
+        })
+    } catch (error) {
+        console.log(error)
+    }
 }
 </script>
 

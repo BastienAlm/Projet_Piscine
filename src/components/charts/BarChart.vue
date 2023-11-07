@@ -10,8 +10,9 @@
   import axios from 'axios'
   import moment from 'moment';
   import { Bar } from 'vue-chartjs'
-  import { labels, data } from '../event-utils'
+  import { getLabel, dataItems, workingTimes, dateFormat,getDayName} from '../event-utils'
   import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { createRef } from '@fullcalendar/core/preact';
   
   ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
   
@@ -20,39 +21,14 @@
     components: { Bar },
     data() {
       return {
-        chartData: {
-          labels: labels,
-          datasets: [ 
-            { data: data,
-                label: 'WorkingTimes'
-            }]
-        },
         chartOptions: {
           responsive: true
         },
+        labels : [],
+        items : []
       }
     },
     methods:{
-      getWorkingTimes(){
-      console.log(this.$route.params.userid );
-      axios.get(`http://localhost:4000/api/workingtimes/${this.$route.params.userid}`)
-      .then((response) => {
-        console.log(response.data.data);
-        console.log(this.dateFormat(response.data.data[0].end));
-        for(let i = 0; i < response.data.data.length; i++){
-          // console.log(this.getMonthName(response.data.data[i].end));
-          // const test = this.dateFormat(response.data.data[i].end);
-          // this.labels.push(this.getMonth(test))
-          response.data.data[i].start = this.dateFormat(response.data.data[i].start);
-          //this.workingsTable.push(response.data.data[i]);
-        }
-        // console.log(this.labels);
-        //console.log(this.workingsTable);
-        // this.workingsTable.push(response.data.data);
-      }).catch((error) => {
-        console.log(error);
-      });
-      },
       getMonth(datetime) {
         const date = new Date(datetime); // Replace this with your actual date object
         const month = date.getMonth();
@@ -60,13 +36,44 @@
         this.labels.push(monthNames[month])
         return monthNames[month];
       },
+      getMinute(datetime) {
+        const date = new Date(datetime); // Replace this with your actual date object
+        const minute = date.getMinutes();
+        return minute;
+      },
       dateFormat(date) {
         return moment(date).format('MM/DD/YYYY hh:mm');
       },
+      async getDatas(){
+        const value = await workingTimes();
+        let datas = value.data.data.map((rep) => rep.start);
+        const date = datas.map((rep) => new Date(rep))      
+        const month = date.map((rep) => rep.getMonth());
+        const minutes = date.map((rep) => rep.getMinutes());
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        this.labels = month.map((rep, index) => monthNames[rep])
+        this.items = minutes
+      }
     },
-    created(){
-      console.log(labels);
-    }
+    computed:{
+      chartData(){
+        this.getDatas();
+        const final = {
+          labels: [],
+          datasets: [ 
+          {
+            data: [],
+            label: 'WorkingTimes'
+          }
+          ]
+        }
+        final.labels = this.labels;
+        final.datasets[0].data = this.items;
+        return final;
+      }
+      
+    },
+     
     
   }
   </script>
