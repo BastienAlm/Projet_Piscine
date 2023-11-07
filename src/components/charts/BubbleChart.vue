@@ -4,6 +4,7 @@
 
 <script>
 import { Bubble } from 'vue-chartjs';
+import * as config from '../event-utils'
 import {
     Chart as ChartJS,
     Tooltip,
@@ -17,7 +18,32 @@ export default {
     components: { Bubble },
     data() {
         return {
-            chartData: {
+            chartOptions: {
+                responsive: true
+            }, 
+            labels: [],
+            minutes: []
+        }
+    },
+    methods:{
+        async getData(){
+            const value = await config.workingTimes();
+            let datas = value.data.data.map((rep) => rep.start);
+            const date = datas.map((rep) => new Date(rep))      
+            this.labels = date.map((rep) => config.getMonth(rep));
+            this.minutes = date.map((rep) => config.getMinute(rep))
+            console.log(this.labels);
+        },
+        generateRandomColor(){
+            return  '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+        }
+
+    },
+    computed:{
+        chartData(){
+            this.getData()
+            const intialTab = [1,2]
+            const chartData = {
                 datasets: [
                     {
                         label: 'Data One',
@@ -40,32 +66,38 @@ export default {
                             }
                         ]
                     },
-                    {
-                        label: 'Data Two',
-                        backgroundColor: '#7C8CF8',
-                        data: [
-                            {
-                                x: 10,
-                                y: 30,
-                                r: 15
-                            },
-                            {
-                                x: 20,
-                                y: 20,
-                                r: 10
-                            },
-                            {
-                                x: 15,
-                                y: 8,
-                                r: 30
-                            }
-                        ]
-                    }
                 ]
-            },
-            chartOptions: {
-                responsive: true
             }
+
+            const test = this.labels.map((rep,index) =>{
+                return{
+                    "label": this.labels[index],
+                    "backgroundColor": this.generateRandomColor(),
+                    "data": this.minutes.map((rep, index) => {
+                        return {
+                            "x":rep,
+                            "y":rep,
+                            'r':30
+                        },
+                        {
+                            "x":rep,
+                            "y":rep,
+                            'r':30
+                        },
+                        {
+                            "x":rep,
+                            "y":rep,
+                            'r':30
+                        }
+                    }),
+                }
+            })
+
+            const final = {
+                "datasets": test
+            } 
+            console.log(final);
+            return final;
         }
     }
 }

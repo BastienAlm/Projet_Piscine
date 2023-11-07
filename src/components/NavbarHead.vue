@@ -33,7 +33,14 @@ export default {
     color: #333
 }
 
-.router-link-active ,.router-link-exact-active {
+a.router-link-active {
+    color: #000 !important;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: lightblue;
+}
+
+a.router-link-exact-active{
     color: #000 !important;
     text-transform: uppercase;
     font-weight: bold;

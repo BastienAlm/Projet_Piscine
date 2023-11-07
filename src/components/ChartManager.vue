@@ -4,7 +4,7 @@
         <ul class="container">     
             <li><router-link to='/chartManager/1'>Bar</router-link></li>
             <li>&nbsp;</li>
-            <li><router-link to='/chartManager/:userid/bubble'>Bubble</router-link></li>
+            <li><router-link to='/chartManager/1/bubble'>Bubble</router-link></li>
             <li>&nbsp;</li>
             <li><router-link to='/chartManager/:userid/dognhut'>Dognhut</router-link></li>
             <li>&nbsp;</li>
@@ -42,7 +42,14 @@ ul li{
 }
 
 a.router-link-exact-active {
-  color: #42b983;
+  color: #42b983 !important;
+}
+
+a.router-link-active  {
+    /* color: unset !important;
+    text-transform: unset;
+    font-weight: unset;
+    background-color: unset; */
 }
   
 
