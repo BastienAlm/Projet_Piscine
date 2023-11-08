@@ -1,118 +1,173 @@
 <template>
-   <div>
-    <form  class="login-form" @submit.prevent="login">
-        <h1>Login</h1>
-        <div class="form-input-material">
-        <input v-model="NewUser.user.username" type="text" name="username" id="username" placeholder=" " autocomplete="off" class="form-control-material" required />
-        <label for="username">Username</label>
-        </div>
-        <div class="form-input-material">
-        <input v-model="NewUser.user.email" type="email" name="email" id="email" placeholder=" " autocomplete="off" class="form-control-material" required />
-        <label for="email">Email</label>
-        </div>
-        <button type="submit" class="btn btn-primary btn-ghost">Login</button>
-    </form>
+
+<div class="login-page">
+   <transition name="fade">
+      <div v-if="!registerActive" class="wallpaper-login"></div>
+   </transition>
+   <div class="wallpaper-register"></div>
+
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
+            <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
+               <h1>Sign In</h1>
+               <form class="form-group" @submit.prevent="doLogin">
+                  <!-- <input v-model="emailLogin" type="email" class="form-control" placeholder="Email" required> -->
+                  <input v-model="idLogin" type="number" class="form-control" placeholder="Id" required>
+                  <!-- <input v-model="passwordLogin" type="password" class="form-control" placeholder="Password" required> -->
+                  <input type="submit" class="btn btn-primary">
+                  <p>Don't have an account? <a href="#" @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
+                  </p>
+                  <p><a href="#">Forgot your password?</a></p>
+               </form>
+            </div>
+
+            <div v-else class="card register" v-bind:class="{ error: emptyFields }">
+               <h1>Sign Up</h1>
+               <form class="form-group">
+                  <input v-model="emailReg" type="email" class="form-control" placeholder="Email" required>
+                  <input v-model="passwordReg" type="password" class="form-control" placeholder="Password" required>
+                  <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirm Password" required>
+                  <input type="submit" class="btn btn-primary" @click="doRegister">
+                  <p>Already have an account? <a href="#" @click="registerActive = !registerActive, emptyFields = false">Sign in here</a>
+                  </p>
+               </form>
+            </div>
+         </div>
+      </div>
+
    </div>
+</div>
+
 </template>
 
 <script>
-export default {
-    data(){
-        return{
-            NewUser: {
-                user:{
-                    email:"",
-                    username:"",
-                    role: "employee"
-                }
-            },
-        }
-    },
-    login(){
-        localStorage.setItem('token', this.NewUser)
-        try {
-        axios.post("http://localhost:4000/api/users", this.NewUser)
-        .then((response) => {
-          
-          alert("User created");
-          this.NewUser.user.email = "";
-          this.NewUser.user.username = "";
-        }).catch(
-          (error) =>
-          alert("check fields and unique email"));
-          //window.location.reload("500"));
-          
-      }
-      catch (error) {
-        console.log(error);
-        alert("Error", error); 
-      }
-    }
 
+export default {
+  name: "Login",
+  data(){
+    return {
+      registerActive: false,
+      emailLogin: "",
+      idLogin:"",
+      passwordLogin: "",
+      emailReg: "",
+      passwordReg: "",
+      confirmReg: "",
+      emptyFields: false
+    }
+  },
+  methods:{
+    doLogin() {
+      // if (this.emailLogin === "" || this.passwordLogin === "") {
+        if (this.idLogin === "" ) {
+        this.emptyFields = true;
+      } else {
+        this.getUser();
+      }
+    },
+    doRegister() {
+      if (this.emailReg === "" || this.passwordReg === "" || this.confirmReg === "") {
+        this.emptyFields = true;
+      } else {
+        alert("You are now registered");
+      }
+    },
+    async getUser() {
+      try {
+        let response = await fetch(
+          `http://localhost:4000/api/users/${
+            this.idLogin
+          }`);
+          const data = await response.json(); 
+                 // ).then((data) => {
+        //     console.log( await data.json());
+        localStorage.setItem('user', JSON.stringify(data.data));
+        console.log(data.data);
+        this.$router.push("workingTimes/1")
+      } catch (error) {
+        console.log(error);
+      }
+      
+    },
+  }
 }
 </script>
 
-<style scoped>
-div {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #eceffc;
-  }
-  
-  .btn {
-    padding: 8px 20px;
-    border-radius: 0;
-    overflow: hidden;
-  }
-  .btn::before {
-    position: absolute;
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, var(--primary-color), transparent);
-    transform: translateX(-100%);
-    transition: 0.6s;
-  }
-  .btn:hover {
-    background: transparent;
-    box-shadow: 0 0 20px 10px rgba(51, 152, 219, 0.5);
-  }
-  .btn:hover::before {
-    transform: translateX(100%);
-  }
-  
-  .form-input-material {
-    --input-default-border-color: white;
-    --input-border-bottom-color: white;
-  }
-  .form-input-material input {
-    color: white;
-  }
-  
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px 40px;
-    color: white;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109), 0 1px 1px rgba(128, 128, 128, 0.155), 0 2.1px 2.1px rgba(128, 128, 128, 0.195), 0 4.4px 4.4px rgba(128, 128, 128, 0.241), 0 12px 12px rgba(128, 128, 128, 0.35);
-  }
-  .login-form h1 {
-    margin: 0 0 24px 0;
-  }
-  .login-form .form-input-material {
-    margin: 12px 0;
-  }
-  .login-form .btn {
-    width: 100%;
-    margin: 18px 0 9px 0;
-  }
+<style scoped lang="scss">
+p {
+   line-height: 1rem;
+}
+
+.card {
+   padding: 20px;
+}
+
+.form-group {
+   input {
+      margin-bottom: 20px;
+   }
+}
+
+.login-page {
+   align-items: center;
+   display: flex;
+   height: 100vh;
+
+   .wallpaper-login {
+      background: url(https://images.pexels.com/photos/32237/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)
+         no-repeat center center;
+      background-size: cover;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+   }
+   
+   .fade-enter-active,
+   .fade-leave-active {
+  transition: opacity .5s;
+}
+   .fade-enter,
+   .fade-leave-to {
+      opacity: 0;
+   }
+   
+   .wallpaper-register {
+      background: url(https://images.pexels.com/photos/533671/pexels-photo-533671.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)
+         no-repeat center center;
+      background-size: cover;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      z-index: -1;
+   }
+
+   h1 {
+      margin-bottom: 1.5rem;
+   }
+}
+
+.error {
+   animation-name: errorShake;
+   animation-duration: 0.3s;
+}
+
+@keyframes errorShake {
+   0% {
+      transform: translateX(-25px);
+   }
+   25% {
+      transform: translateX(25px);
+   }
+   50% {
+      transform: translateX(-25px);
+   }
+   75% {
+      transform: translateX(25px);
+   }
+   100% {
+      transform: translateX(0);
+   }
+}
+
 </style>

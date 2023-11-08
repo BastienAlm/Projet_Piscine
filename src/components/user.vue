@@ -119,7 +119,7 @@
     <div class="column2">
       <!-- <div style="flex: 50%; background-color: lightgray"></div>
       <div style="flex: 50%; background-color: gray"></div> -->
-      <router-view />
+      <slot />
     </div>
   </div>
 </template>
@@ -249,6 +249,7 @@ export default {
 .row {
   display: flex;
   flex-direction: row;
+  flex-wrap: unset;
 }
 
 .column1 {
