@@ -19,7 +19,7 @@ defmodule Timemanager.MixProject do
   def application do
     [
       mod: {Timemanager.Application, []},
-      extra_applications: [:logger, :runtime_tools, :corsica ]
+      extra_applications: [:logger, :runtime_tools, :corsica, :poison ]
     ]
   end
 
@@ -54,7 +54,8 @@ defmodule Timemanager.MixProject do
       {:bcrypt_elixir, "3.1.0"},
       {:json_web_token, "0.2.10"},
       {:corsica, "~> 2.0"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:plug, "~> 1.3"}
 
 
     ]
