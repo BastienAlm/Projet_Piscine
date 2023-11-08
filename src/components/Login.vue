@@ -136,7 +136,7 @@ p {
    }
    
    .wallpaper-register {
-      background: url(https://img.freepik.com/vecteurs-libre/conception-fond-halloween-heureux_52683-44523.jpg?w=900&t=st=1699435067~exp=1699435667~hmac=ab506421b64b74bf29dda9444a3244dd7882c891e84f8f48d03de95a452d1c9c)
+      background: url(https://images.unsplash.com/photo-1561487767-1f32d174cce0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
          no-repeat center center;
       background-size: cover;
       height: 100%;
