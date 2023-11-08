@@ -44,6 +44,20 @@ defmodule TimemanagerWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
+    plug Corsica,
+    origins: "*",
+    allow_headers: :all,
+    allow_methods: :all,
+    protocol_options: [
+      max_header_name_length: 64,
+      max_header_value_length: 4096,
+      max_headers: 100,
+      max_request_line_length: 8096
+    ],
+    allow_credentials: true
+
+
+
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options

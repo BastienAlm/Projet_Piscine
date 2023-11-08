@@ -22,13 +22,16 @@ defmodule TimemanagerWeb.WorkingtimeController do
       select: u
 
     clock= Repo.all(query)
-    status =  List.last(clock).status
-    count = length(clock)
     clockout = DateTime.utc_now();
     clockin = List.last(clock).time
 
-    newworkingtime = Map.merge(workingtime_params, %{"start" => clockin, "end" => clockout , "user" => userID})
+    newworkingtime = if workingtime_params === {nil} do
 
+      Map.merge(workingtime_params, %{"user" => userID})
+
+    else
+      Map.merge(workingtime_params, %{"start" => clockin, "end" => clockout , "user" => userID})
+    end
     with {:ok, %Workingtime{} = workingtime} <- Workingtimes.create_workingtime(newworkingtime) do
       conn
       |> put_status(:created)

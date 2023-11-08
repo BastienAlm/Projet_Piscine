@@ -19,7 +19,7 @@ defmodule Timemanager.MixProject do
   def application do
     [
       mod: {Timemanager.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :corsica ]
     ]
   end
 
@@ -50,7 +50,13 @@ defmodule Timemanager.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:bcrypt_elixir, "3.1.0"},
+      {:json_web_token, "0.2.10"},
+      {:plug_crypto, "~> 1.2.5"},
+      {:corsica, "~> 2.0"},
+
+
     ]
   end
 
@@ -58,7 +64,6 @@ defmodule Timemanager.MixProject do
   # For example, to install project dependencies and perform other setup tasks, run:
   #
   #     $ mix setup
-  #
   #
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do

@@ -4,7 +4,7 @@ import Config
 config :timemanager, Timemanager.Repo,
   username: "postgres",
   password: "1234",
-  hostname: "database",
+  hostname: "localhost",
   database: "gotham",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,

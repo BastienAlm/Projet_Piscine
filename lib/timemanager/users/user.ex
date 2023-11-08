@@ -6,6 +6,7 @@ defmodule Timemanager.Users.User do
     field :username, :string
     field :role, :string
     field :email, :string
+    field :password, :string
     has_many :clocks, Timemanager.Users.User, foreign_key: :user
     has_many :workingtimes, Timemanager.Users.User, foreign_key: :user
 
@@ -15,7 +16,8 @@ defmodule Timemanager.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :username, :role])
-    |> validate_required([:email, :username, :role])
+    |> cast(attrs, [:email, :username, :role, :password])
+    |> unique_constraint(:email)
+    |> validate_required([:email, :username, :role, :password])
   end
 end

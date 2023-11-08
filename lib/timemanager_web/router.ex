@@ -20,6 +20,8 @@ defmodule TimemanagerWeb.Router do
 
     resources "/users", UserController
 
+    post "/users/login", UserController, :login
+
     resources "/clocks", ClockController, except: [:create, :show]
     post "/clocks/:userID", ClockController, :create
     get "/clocks/:userID", ClockController, :show

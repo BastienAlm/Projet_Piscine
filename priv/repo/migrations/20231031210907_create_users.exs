@@ -6,6 +6,7 @@ defmodule Timemanager.Repo.Migrations.CreateUsers do
       add :email, :string
       add :username, :string
       add :role, :string
+      add :password, :string
 
       timestamps(type: :utc_datetime)
     end

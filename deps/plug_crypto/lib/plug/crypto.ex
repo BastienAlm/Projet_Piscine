@@ -6,6 +6,7 @@ defmodule Plug.Crypto do
   `Plug.Crypto.MessageEncryptor`, and `Plug.Crypto.MessageVerifier`.
   """
 
+  import Bitwise
   alias Plug.Crypto.{KeyGenerator, MessageVerifier, MessageEncryptor}
 
   @doc """
@@ -22,6 +23,12 @@ defmodule Plug.Crypto do
 
   def prune_args_from_stacktrace(stacktrace) when is_list(stacktrace),
     do: stacktrace
+
+  @doc false
+  @deprecated "Use non_executable_binary_to_term/2"
+  def safe_binary_to_term(binary, opts \\ []) do
+    non_executable_binary_to_term(binary, opts)
+  end
 
   @doc """
   A restricted version of `:erlang.binary_to_term/2` that forbids
@@ -112,12 +119,16 @@ defmodule Plug.Crypto do
   @spec masked_compare(binary(), binary(), binary()) :: boolean()
   def masked_compare(left, right, mask)
       when is_binary(left) and is_binary(right) and is_binary(mask) do
-    byte_size(left) == byte_size(right) and byte_size(right) == byte_size(mask) and
-      crypto_exor_hash_equals(left, right, mask)
+    byte_size(left) == byte_size(right) and masked_compare(left, right, mask, 0)
   end
 
-  defp crypto_exor_hash_equals(x, y, z) do
-    crypto_hash_equals(mask(x, y), z)
+  defp masked_compare(<<x, left::binary>>, <<y, right::binary>>, <<z, mask::binary>>, acc) do
+    xorred = bxor(x, bxor(y, z))
+    masked_compare(left, right, mask, acc ||| xorred)
+  end
+
+  defp masked_compare(<<>>, <<>>, <<>>, acc) do
+    acc === 0
   end
 
   @doc """
@@ -127,28 +138,16 @@ defmodule Plug.Crypto do
   """
   @spec secure_compare(binary(), binary()) :: boolean()
   def secure_compare(left, right) when is_binary(left) and is_binary(right) do
-    byte_size(left) == byte_size(right) and crypto_hash_equals(left, right)
+    byte_size(left) == byte_size(right) and secure_compare(left, right, 0)
   end
 
-  # TODO: remove when we require OTP 25.0
-  if Code.ensure_loaded?(:crypto) and function_exported?(:crypto, :hash_equals, 2) do
-    defp crypto_hash_equals(x, y) do
-      :crypto.hash_equals(x, y)
-    end
-  else
-    defp crypto_hash_equals(x, y) do
-      legacy_secure_compare(x, y, 0)
-    end
+  defp secure_compare(<<x, left::binary>>, <<y, right::binary>>, acc) do
+    xorred = bxor(x, y)
+    secure_compare(left, right, acc ||| xorred)
+  end
 
-    defp legacy_secure_compare(<<x, left::binary>>, <<y, right::binary>>, acc) do
-      import Bitwise
-      xorred = bxor(x, y)
-      legacy_secure_compare(left, right, acc ||| xorred)
-    end
-
-    defp legacy_secure_compare(<<>>, <<>>, acc) do
-      acc === 0
-    end
+  defp secure_compare(<<>>, <<>>, acc) do
+    acc === 0
   end
 
   @doc """
@@ -203,9 +202,17 @@ defmodule Plug.Crypto do
   """
   def encrypt(key_base, secret, data, opts \\ [])
       when is_binary(key_base) and is_binary(secret) do
+    encrypt(key_base, secret, nil, data, opts)
+  end
+
+  @doc false
+  def encrypt(key_base, secret, salt, data, opts) do
     data
     |> encode(opts)
-    |> MessageEncryptor.encrypt(get_secret(key_base, secret, opts), "")
+    |> MessageEncryptor.encrypt(
+      get_secret(key_base, secret, opts),
+      get_secret(key_base, salt, opts)
+    )
   end
 
   defp encode(data, opts) do
@@ -299,20 +306,23 @@ defmodule Plug.Crypto do
 
   """
   def decrypt(key_base, secret, token, opts \\ [])
-
-  def decrypt(key_base, secret, nil, opts)
       when is_binary(key_base) and is_binary(secret) and is_list(opts) do
-    {:error, :missing}
+    decrypt(key_base, secret, nil, token, opts)
   end
 
-  def decrypt(key_base, secret, token, opts)
-      when is_binary(key_base) and is_binary(secret) and is_list(opts) do
+  @doc false
+  def decrypt(key_base, secret, salt, token, opts) when is_binary(token) do
     secret = get_secret(key_base, secret, opts)
+    salt = get_secret(key_base, salt, opts)
 
-    case MessageEncryptor.decrypt(token, secret, "") do
+    case MessageEncryptor.decrypt(token, secret, salt) do
       {:ok, message} -> decode(message, opts)
       :error -> {:error, :invalid}
     end
+  end
+
+  def decrypt(_key_base, _secret, _salt, nil, _opts) do
+    {:error, :missing}
   end
 
   defp decode(message, opts) do
@@ -335,6 +345,10 @@ defmodule Plug.Crypto do
   ## Helpers
 
   # Gathers configuration and generates the key secrets and signing secrets.
+  defp get_secret(_secret_key_base, nil, _opts) do
+    ""
+  end
+
   defp get_secret(secret_key_base, salt, opts) do
     iterations = Keyword.get(opts, :key_iterations, 1000)
     length = Keyword.get(opts, :key_length, 32)
