@@ -54,6 +54,7 @@ defmodule Timemanager.MixProject do
       {:bcrypt_elixir, "3.1.0"},
       {:json_web_token, "0.2.10"},
       {:corsica, "~> 2.0"},
+      {:poison, "~> 5.0"}
 
 
     ]
