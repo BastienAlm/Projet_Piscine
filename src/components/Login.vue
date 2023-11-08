@@ -111,6 +111,9 @@ p {
       margin-bottom: 20px;
    }
 }
+form.form-group {
+   display: unset;
+}
 
 .login-page {
    align-items: center;
