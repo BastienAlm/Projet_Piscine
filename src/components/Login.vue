@@ -1,6 +1,6 @@
 <template>
-
 <div class="login-page">
+  <PWAPrompt />
    <transition name="fade">
       <div v-if="!registerActive" class="wallpaper-login"></div>
    </transition>
@@ -42,9 +42,12 @@
 </template>
 
 <script>
-
+import PWAPrompt from './PWAPrompt.vue';
 export default {
   name: "Login",
+  components:{
+    PWAPrompt
+  },
   data(){
     return {
       registerActive: false,
