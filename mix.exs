@@ -53,7 +53,6 @@ defmodule Timemanager.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:bcrypt_elixir, "3.1.0"},
       {:json_web_token, "0.2.10"},
-      {:plug_crypto, "~> 1.2.5"},
       {:corsica, "~> 2.0"},
 
 
