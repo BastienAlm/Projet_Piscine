@@ -133,7 +133,7 @@ p {
    }
    
    .wallpaper-register {
-      background: url(https://images.pexels.com/photos/533671/pexels-photo-533671.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)
+      background: url(https://img.freepik.com/vecteurs-libre/conception-fond-halloween-heureux_52683-44523.jpg?w=900&t=st=1699435067~exp=1699435667~hmac=ab506421b64b74bf29dda9444a3244dd7882c891e84f8f48d03de95a452d1c9c)
          no-repeat center center;
       background-size: cover;
       height: 100%;
