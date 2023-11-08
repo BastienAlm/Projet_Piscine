@@ -12,8 +12,8 @@ Build:
   before_script:
     - apk add --no-cache curl jq python3 py3-pip
     #  - apk add --no-cache --upgrade sh
-    - apk install make
-    - apk-get install build-essential
+    - apk add make
+    - apk-get add build-essential
     - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
   script:
     - docker build -t $DOCKER_REGISTRY/gotham-api:latest .
