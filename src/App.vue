@@ -1,18 +1,19 @@
 <template>
   <main>
     <component :is="$route.meta.layout || 'div'">
+      <install-prompt></install-prompt>
       <router-view></router-view>
     </component>
   </main>
 </template>
 
 <script>
-import User from "./components/user";
+import installPrompt from "./components/PWAPrompt.vue";
 
 export default {
   name: "App",
   components: {
-    User,
+    installPrompt
   },
   data() {
     return {
