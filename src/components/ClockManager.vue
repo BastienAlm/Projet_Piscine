@@ -7,7 +7,9 @@
 		</div>
 		<div class="mb-2" v-if='displayTitle'>
 			<p class='text-2xl cursor-pointer group' @click='rename'>
+				<b>
 				{{ displayTitle }}
+				</b>
 				<span class='text-base hidden group-hover:inline'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
 			</p>
 		</div>
@@ -83,7 +85,7 @@ workingtime:{
 
 const props = defineProps(['id'])
 
-let displayTitle = ref('Timer'),
+let displayTitle = ref('TIMER'),
 	display = ref('00:00:00'),
 	displayMs = ref('000'),
 	percentage = ref(0),
@@ -288,6 +290,14 @@ async function clockOut(){
 	animation-name: blink;
 	animation-iteration-count: infinite;
 	animation-direction: normal;
+}
+
+.text-6xl {
+    font-size: 5.50rem;
+}
+
+.text-white {
+    color: #333!important;
 }
 
 @keyframes blink {

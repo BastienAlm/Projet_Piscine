@@ -250,6 +250,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: unset;
+  margin-right: unset;
 }
 
 .column1 {
