@@ -1,68 +1,78 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { isAuthenticated } from "./_helpers/auth-gard";
-import user from "./components/user.vue"
+import user from "./components/user.vue";
+import WorkingTimes from "./components/WorkingTimes.vue";
+import WorkingTime from "./components/WorkingTime.vue";
+import Clock from "./components/ClockManager.vue";
+import ChartManager from "./components/ChartManager.vue";
+import Barchart from "./components/charts/BarChart.vue";
+import LineChart from "./components/charts/LineChart.vue";
+import BubbleChart from "./components/charts/BubbleChart.vue";
+import RadarChart from "./components/charts/RadarChart.vue";
+import PolarChart from "./components/charts/PolarChart.vue";
+import DoughnutChart from "./components/charts/DognhutAndPieChart.vue";
 
 const routes = [
     {
         path: '/workingTimes/:userId',
         meta: {layout: user},
         name: 'workingTimesCreation',
-        component: () => import('./components/WorkingTimes.vue')
+        component: WorkingTimes
     },
     {
         path: '/workingTime/:userid',
         meta: {layout: user},
         name: 'workingTimeCreation',
-        component: () => import('./components/WorkingTime.vue')
+        component: WorkingTime
     },
     {
         path: '/workingTime/:userid/:workingtimeid',
         meta: {layout: user},
         name: 'workingTime',
-        component: () => import('./components/WorkingTime.vue')
+        component: WorkingTime
     },
     {
         path: '/clock/:username',
         meta: {layout: user},
         name: 'clock',
-        component: () => import('./components/ClockManager.vue')
+        component: Clock
     },
     {
         path: '/chartManager/:userid',
         meta: {layout: user},
         name: 'chartManager',
-        component: () => import('./components/ChartManager.vue'),
+        component: ChartManager,
         children: [
             {
                 path: '',
                 name: "BarChart",
-                component: () => import("./components/charts/BarChart.vue"),
+                component: Barchart,
 
             },
             {
                 path: "bubble",
                 name: "BubbleChart",
-                component: () => import("./components/charts/BubbleChart.vue"),
+                component: BubbleChart,
             },
             {
                 path: "dognhut",
                 name: "DogNhutChart",
-                component: () => import("./components/charts/DognhutAndPieChart.vue"),
+                component: DoughnutChart,
             },
             {
                 path: "line",
                 name: "LineChart",
-                component: () => import("./components/charts/LineChart.vue"),
+                component: LineChart,
             },
             {
                 path: "polar",
                 name: "PolarChart",
-                component: () => import("./components/charts/PolarChart.vue"),
+                component: PolarChart,
             },
             {
                 path: "radar",
                 name: "RadarChart",
-                component: () => import("./components/charts/RadarChart.vue"),
+                component: RadarChart,
             }
 
             
