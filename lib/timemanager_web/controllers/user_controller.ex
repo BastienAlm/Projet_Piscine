@@ -2,8 +2,8 @@ defmodule TimemanagerWeb.UserController do
   use TimemanagerWeb, :controller
 
   import Ecto.Query
-  import Plug.Crypto
-  alias JsonWebToken.Jwt
+
+
   alias Bcrypt.Base
   alias Timemanager.Users
   alias Timemanager.Users.User
@@ -77,7 +77,7 @@ defmodule TimemanagerWeb.UserController do
     end
   end
 
-  def login(conn, %{"login"=>login_params}) do
+  def sign_in(conn, %{"login"=>login_params}) do
 
     useremail = Map.get(login_params,"email")
 
@@ -88,25 +88,24 @@ defmodule TimemanagerWeb.UserController do
     select: u
     user = Repo.all(query)
 
-    hash = List.last(user).password
+    hash = List.last(user).password #Map.get(List.last(user),"password")
 
     valid = Bcrypt.verify_pass(password, hash)
 
-    claims = %{iss: user, exp: 1300819380, "http://example.com/is_root": true}
-    key = "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"
+    currentTime = Joken.CurrentTime.OS.current_time + 30 * 24 * 60 * 60
 
-    options = %{alg: "HS256", key: key}
+    claims = %{user_id: List.last(user).id, role: List.last(user).role , exp: currentTime + 10,}
 
-    token = if valid do
 
-     # Jwt.config_header(alg: "HS256", key: key)
-      JsonWebToken.sign(claims, options)
+    if valid do
+
+    {:ok, jwt} =  Joken.Signer.sign(claims, Joken.Signer.create("HS256", "gZH75aKtMN3Yj0iPS4hcgUuTwjAzZr9C"))
+
+    render(conn, :sign, token: jwt)
 
     else
       send_resp(conn, :forbidden, "Invalid password")
     end
-
-  text(conn, token)
 
   end
 

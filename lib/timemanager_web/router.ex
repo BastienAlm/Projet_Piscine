@@ -15,12 +15,21 @@ defmodule TimemanagerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :authenticated do
+    plug Timemanager.PlugAuthenticate
+  end
+
   scope "/api", TimemanagerWeb do
     pipe_through :api
+    post "/users/sign_in", UserController, :sign_in
+  end
+
+
+  scope "/api", TimemanagerWeb do
+    pipe_through [:api, :authenticated]
 
     resources "/users", UserController
 
-    post "/users/login", UserController, :login
 
     resources "/clocks", ClockController, except: [:create, :show]
     post "/clocks/:userID", ClockController, :create

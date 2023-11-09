@@ -14,6 +14,9 @@ defmodule TimemanagerWeb.UserJSON do
   def show(%{user: user}) do
     %{data: data(user)}
   end
+  def sign(%{token: jwt}) do
+    %{token: jwt}
+  end
 
   defp data(%User{} = user) do
     %{

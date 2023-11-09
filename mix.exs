@@ -48,11 +48,11 @@ defmodule Timemanager.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.20"},
-      {:jason, "~> 1.2"},
+      {:jason, "~> 1.3"},
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:json_web_token, "0.2.10"},
+      {:joken, "~> 2.6"},
       {:corsica, "~> 2.0"},
       {:poison, "~> 3.1"},
       {:plug, "~> 1.3"}
