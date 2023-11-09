@@ -116,24 +116,24 @@
         </form>
       </div>
       <div class='timer p-4 rounded shadow-lg hover:shadow-2xl transition ease-in-out text-center flex flex-col justify-center bg-white relative overflow-hidden' @click='globalClick'>
-		<div class='w-full rounded-t absolute top-0 left-0'>
-			<div class='h-2 bg-black opacity-25' :style="{ width: percentage * 100 + '%' }" v-if='!countingUp'>
-			</div>
-		</div>
-		<div class="mb-2" v-if='displayTitle'>
-			<p class='text-2xl cursor-pointer group' @click='rename'>
-				<b>
-				{{ displayTitle }}
-				</b>
-				<span class='text-base hidden group-hover:inline'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
-			</p>
-		</div>
-		<div class="display mb-4">
-			<p class='text-xl cursor-pointer group' :class="{ 'timer-blinking': isBlinking }" @click='retime'>
-				<span class='text-6xl'>{{ display }}</span><span class='text-xl text-gray-500'>.{{ displayMs }}</span>
-				<span class='text-xl hidden group-hover:inline ml-1'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
-			</p>
-		</div>
+        <div class='w-full rounded-t absolute top-0 left-0'>
+          <div class='h-2 bg-black opacity-25' :style="{ width: percentage * 100 + '%' }" v-if='!countingUp'>
+          </div>
+        </div>
+        <div class="mb-2" v-if='displayTitle'>
+          <p class='text-2xl cursor-pointer group' @click='rename'>
+            <b>
+            {{ displayTitle }}
+            </b>
+            <span class='text-base hidden group-hover:inline'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
+          </p>
+        </div>
+        <div class="display mb-4">
+          <p class='text-xl cursor-pointer group' :class="{ 'timer-blinking': isBlinking }" @click='retime'>
+            <span class='text-6xl'>{{ display }}</span><span class='text-xl text-gray-500'>.{{ displayMs }}</span>
+            <span class='text-xl hidden group-hover:inline ml-1'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
+          </p>
+        </div>
 		
 	</div>
     </div>
@@ -175,8 +175,8 @@
 import axios from 'axios';
 import Header from './Header.vue';
 import NavbarHead from './NavbarHead.vue';
-import * as config from './event-utils';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import {useRoute} from 'vue-router'
 export default {
   name: "User",
   components: {
@@ -207,10 +207,6 @@ export default {
         email: "",
         username: "",
       },
-      percentage : config.percentage,
-      countingUp : config.countingUp,
-      isBlinking : config.isBlinking,
-      displayMs : config.displayMs,
     };
   },
   methods: {
@@ -294,18 +290,18 @@ export default {
         console.log(error);
       }
     },
-    globalClick() {
-      config.globalClick();
-    },
-    rename() {
-      config.rename();
-    },
-    retime() {
-      config.retime();
-    }
   },
-  computed: {
-    convertTimeFromString(string = '')  {
+  setup() {
+
+    const route =useRoute();
+    const path = computed(() =>route.path)
+    const timeUnitSeconds = [
+      1,
+      60,
+      60 * 60,
+      24 * 60 * 60,
+    ];
+    const convertTimeFromString = (string = '') => {
       const timeUnits = string.split(':').reverse()
       let seconds = 0
       let isNotNaN = false
@@ -317,16 +313,232 @@ export default {
       })
       if (isNotNaN) return seconds
       else return NaN
-    },
-    displayTitle() {
-      return config.displayTitle;
-    },
-  },
-  setup() {
-    const display = ref(config.display);
+    }
+
+    const clockObject = {
+      clock:{}
+    }
+
+    const workingTimesObject = {
+    workingtime:{
+
+    }}
+
+    let displayTitle = ref('TIMER'),
+    display = ref('00:00:00'),
+    displayMs = ref('000'),
+    percentage = ref(0),
+    defaultSeconds = 0,
+    isStarted = ref(false),
+    isStopped = ref(true),
+    countingUp = ref(true),
+    targetTimestamp = 0,
+    pausedDifference = 0,
+    isBlinking = false,
+    frameInterval = () => {}
+    
+
+    const isRunning = ref (path.value == "/workingTime/1/1" ? true : false)
+
+    function start() {
+      console.log("je start");
+      clockIn();
+      let nowTimestamp = Date.now()
+      let targetTime = defaultSeconds
+      if (pausedDifference) {
+        console.log("test");
+        targetTime = pausedDifference
+        pausedDifference = 0
+      }
+      if (countingUp.value) targetTimestamp = nowTimestamp - targetTime
+      else targetTimestamp = nowTimestamp + targetTime
+      frameInterval = () => {
+        if (!countingUp.value && targetTimestamp - Date.now() < 1) {
+          stop()
+          updateDisplay(0)
+          isBlinking = true
+          if (defaultSeconds === 0) countingUp.value = true
+        } else updateDisplay()
+        requestAnimationFrame(frameInterval)
+      }
+      frameInterval()
+      console.log("jarrive au frameInterval");
+      isStarted.value = true
+      isStopped.value = false
+      isBlinking = false
+    }
+
+    function pause() {
+      console.log("je pause");
+      let nowTimestamp = Date.now()
+      pausedDifference = Math.abs(targetTimestamp - nowTimestamp)
+      frameInterval = () => {}
+      updateDisplay()
+      isStarted.value = false
+    }
+
+    function stop() {
+      console.log("je stop");
+      clockOut()
+      if (isStarted.value) pause()
+      reset()
+      updateDisplay()
+      isStopped.value = true
+    }
+
+    function reset() {
+      console.log("je reset");
+      let nowTimestamp = Date.now()
+      if (countingUp.value) targetTimestamp = nowTimestamp - defaultSeconds
+      else targetTimestamp = nowTimestamp + defaultSeconds
+      pausedDifference = 0
+    }
+
+    /**
+     * Update both display (hh:mm:ss and miliseconds)
+     * @param {number} targetTime 
+     */
+
+     function updateDisplay(targetTime) {
+      if (isStopped.value) return
+      let nowTimestamp = Date.now()
+      if (targetTime) {
+        if (countingUp.value) targetTimestamp = nowTimestamp - targetTime
+        else targetTimestamp = nowTimestamp + targetTime
+      }
+      const time = Math.abs(nowTimestamp - targetTimestamp) / 1000
+      const numMs = Math.floor((time % 1) * 1000)
+      const numS = Math.floor(time % 60)
+      const numM = Math.floor(time/60) % 60
+      const numH = Math.floor(time/3600) % 24
+      const numD = Math.floor(time/86400)
+      let displayTemp = numS.toString().padStart(2, '0')
+      displayTemp = numM.toString().padStart(2, '0') + ':' + displayTemp
+      displayTemp = numH.toString().padStart(2, '0') + ':' + displayTemp
+      if (numD) displayTemp = numD.toString().padStart(2, '0') + ':' + displayTemp
+      display.value = displayTemp
+      displayMs.value = ("000" + numMs).slice(-3)
+      if (!countingUp.value && defaultSeconds) {
+        percentage.value = time * 1000 / defaultSeconds
+      }
+      // console.log(display)
+    }
+
+    async function rename() {
+      // To change the title
+      let { value: title } = await Swal.fire({
+        title: 'Enter the new title',
+        input: 'text',
+        inputValue: displayTitle.value,
+        showCancelButton: true
+      })
+      if (title !== undefined) displayTitle.value = title
+    }
+
+    function countup() {
+      // Switch to counting up
+      countingUp.value = true
+      let nowTimestamp = Date.now()
+      let difference = Math.abs(targetTimestamp - nowTimestamp)
+      targetTimestamp = nowTimestamp - difference
+      // updateDisplay()
+    }
+
+    function countdown() {
+      console.log("je countdown");
+      if (!countingUp.value && defaultSeconds) {
+        percentage.value = time * 1000 / defaultSeconds
+      }
+      countingUp.value = false
+      let nowTimestamp = Date.now()
+      let difference = Math.abs(targetTimestamp - nowTimestamp)
+      targetTimestamp = nowTimestamp + difference
+      // updateDisplay()
+    }
+
+    async function retime() {
+      console.log("je retime");
+      let { value: input } = await Swal.fire({
+        title: 'Enter the new time',
+        input: 'text',
+        inputValue: defaultSeconds / 1000,
+        showCancelButton: true,
+        inputValidator: (input) => {
+          let inputSecs = convertTimeFromString(input)
+          console.log(inputSecs)
+          if (Number.isNaN(Number(inputSecs))) {
+            return 'Enter a valid value!'
+          } else if (inputSecs < 0) {
+            return 'Enter a positive number!'
+          }
+        }
+      })
+
+      if (!input) return
+
+      defaultSeconds = convertTimeFromString(input) * 1000
+      updateDisplay(defaultSeconds)
+      if (pausedDifference) pausedDifference += defaultSeconds
+    }
+
+    function globalClick() {
+      isBlinking = false
+    }
+
+    function clockIn(){
+      try {
+        axios.post("http://localhost:4000/api/clocks/1", clockObject)
+        .then((response) => {
+          
+          console.log("clock created");
+        }).catch(
+          (error) =>
+          alert("check fields and unique email"));
+          //window.location.reload("500"));
+          
+      }
+      catch (error) {
+        console.log(error);
+        alert("Error", error); 
+      }
+    }
+
+    async function clockOut(){
+      try {
+            await axios.post(`http://localhost:4000/api/workingtimes/1`, workingTimesObject)
+            .then(async (response) => {
+          alert("workingTime cretaed")
+            }).catch((error) => {
+              console.log(error);
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return {
-      display
-    };
+      display,
+      displayTitle,
+      displayMs,
+      percentage,
+      defaultSeconds,
+      isStarted,
+      isStopped,
+      countingUp,
+      targetTimestamp,
+      pausedDifference,
+      isBlinking,
+      isRunning,
+      start,
+      frameInterval,
+      updateDisplay,
+      countup,
+      countdown,
+      retime,
+      globalClick,
+      clockIn,
+      clockOut,
+    }
   }
 };
 </script>
