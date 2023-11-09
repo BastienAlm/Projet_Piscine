@@ -130,6 +130,10 @@ export default defineComponent({
     },
     createEventId() {
       return String(this.eventGuid++)
+    }, 
+    start(){
+      console.log("start");
+      this.$emit('start');
     }
 
   },computed:{
@@ -182,24 +186,7 @@ export default defineComponent({
         </template>
       </FullCalendar>
     </div>
-    <div class="controls">
-			<button class='bg-green-600 hover:bg-green-700 text-white focus:ring-2 focus:ring-green-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='start' v-if='!isStarted'>
-				<Icon icon="clarity:play-solid" :inline="true" />
-				Start
-			</button>
-			<button class='bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-2 focus:ring-yellow-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='pause' v-else>
-				<Icon icon="clarity:pause-solid" :inline="true" />
-				Pause
-			</button>
-			<button class='bg-red-600 hover:bg-red-700 text-white focus:ring-2 focus:ring-red-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='stop' v-if='!isStopped'>
-				<Icon icon="clarity:stop-solid" :inline="true" />
-				Stop
-			</button>
-			<button class='bg-blue-700 hover:bg-blue-800 text-white focus:ring-2 focus:ring-blue-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='countup' v-if='!countingUp'>
-				<Icon icon="clarity:plus-circle-solid" :inline="true" />
-				Count Up
-			</button>
-		</div>
+    
   </div>
 </template>
 

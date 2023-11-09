@@ -140,7 +140,26 @@
     <div class="column2">
       <!-- <div style="flex: 50%; background-color: lightgray"></div>
       <div style="flex: 50%; background-color: gray"></div> -->
-      <slot />
+      <slot  />
+      <div class="controls">
+			<button class='bg-green-600 hover:bg-green-700 text-white focus:ring-2 focus:ring-green-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button'  v-if='!isStarted' @click="start">
+				<!-- <Icon icon="clarity:play-solid" :inline="true" /> -->
+        <font-awesome-icon icon="fa-solid fa-user-secret" />
+				Start
+			</button>
+			<button class='bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-2 focus:ring-yellow-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='pause' v-else>
+				<Icon icon="clarity:pause-solid" :inline="true" />
+				Pause
+			</button>
+			<button class='bg-red-600 hover:bg-red-700 text-white focus:ring-2 focus:ring-red-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='stop' v-if='!isStopped'>
+				<Icon icon="clarity:stop-solid" :inline="true" />
+				Stop
+			</button>
+			<button class='bg-blue-700 hover:bg-blue-800 text-white focus:ring-2 focus:ring-blue-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='countup' v-if='!countingUp'>
+				<Icon icon="clarity:plus-circle-solid" :inline="true" />
+				Count Up
+			</button>
+		</div>
     </div>
   </div>
 </template>
@@ -149,6 +168,8 @@
 import axios from 'axios';
 import Header from './Header.vue';
 import NavbarHead from './NavbarHead.vue';
+import * as config from './event-utils';
+import { ref } from 'vue';
 export default {
   name: "User",
   components: {
@@ -178,7 +199,11 @@ export default {
         id: "",
         email: "",
         username: "",
-      }
+      },
+      percentage : config.percentage,
+      countingUp : config.countingUp,
+      isBlinking : config.isBlinking,
+      displayMs : config.displayMs,
     };
   },
   methods: {
@@ -262,22 +287,40 @@ export default {
         console.log(error);
       }
     },
-    components: {
-      convertTimeFromString(string = '')  {
-        const timeUnits = string.split(':').reverse()
-        let seconds = 0
-        let isNotNaN = false
-        timeUnits.forEach((unit, index) => {
-          if (timeUnitSeconds[index] && !isNaN(unit)) {
-            seconds += unit * timeUnitSeconds[index]
-            isNotNaN = true
-          }
-        })
-        if (isNotNaN) return seconds
-        else return NaN
-      }
+    globalClick() {
+      config.globalClick();
+    },
+    rename() {
+      config.rename();
+    },
+    retime() {
+      config.retime();
+    }
+  },
+  computed: {
+    convertTimeFromString(string = '')  {
+      const timeUnits = string.split(':').reverse()
+      let seconds = 0
+      let isNotNaN = false
+      timeUnits.forEach((unit, index) => {
+        if (timeUnitSeconds[index] && !isNaN(unit)) {
+          seconds += unit * timeUnitSeconds[index]
+          isNotNaN = true
+        }
+      })
+      if (isNotNaN) return seconds
+      else return NaN
+    },
+    displayTitle() {
+      return config.displayTitle;
     },
   },
+  setup() {
+    const display = ref(config.display);
+    return {
+      display
+    };
+  }
 };
 </script>
 
