@@ -115,6 +115,27 @@
           <input type="submit" value="Delete" />
         </form>
       </div>
+      <div class='timer p-4 rounded shadow-lg hover:shadow-2xl transition ease-in-out text-center flex flex-col justify-center bg-white relative overflow-hidden' @click='globalClick'>
+		<div class='w-full rounded-t absolute top-0 left-0'>
+			<div class='h-2 bg-black opacity-25' :style="{ width: percentage * 100 + '%' }" v-if='!countingUp'>
+			</div>
+		</div>
+		<div class="mb-2" v-if='displayTitle'>
+			<p class='text-2xl cursor-pointer group' @click='rename'>
+				<b>
+				{{ displayTitle }}
+				</b>
+				<span class='text-base hidden group-hover:inline'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
+			</p>
+		</div>
+		<div class="display mb-4">
+			<p class='text-xl cursor-pointer group' :class="{ 'timer-blinking': isBlinking }" @click='retime'>
+				<span class='text-6xl'>{{ display }}</span><span class='text-xl text-gray-500'>.{{ displayMs }}</span>
+				<span class='text-xl hidden group-hover:inline ml-1'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
+			</p>
+		</div>
+		
+	</div>
     </div>
     <div class="column2">
       <!-- <div style="flex: 50%; background-color: lightgray"></div>
@@ -239,6 +260,21 @@ export default {
           // window.location.reload("500"));
       }catch (error) {
         console.log(error);
+      }
+    },
+    components: {
+      convertTimeFromString(string = '')  {
+        const timeUnits = string.split(':').reverse()
+        let seconds = 0
+        let isNotNaN = false
+        timeUnits.forEach((unit, index) => {
+          if (timeUnitSeconds[index] && !isNaN(unit)) {
+            seconds += unit * timeUnitSeconds[index]
+            isNotNaN = true
+          }
+        })
+        if (isNotNaN) return seconds
+        else return NaN
       }
     },
   },

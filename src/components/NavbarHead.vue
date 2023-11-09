@@ -2,7 +2,6 @@
     <div class="nav">
         <router-link to="/workingTimes/1">WorkingTimes</router-link>
         <router-link to="/workingTime/:userid/:id">WorkingTime</router-link>
-        <router-link to="/clock/1">clock</router-link>
         <router-link to="/chartManager/1">chart</router-link>
     </div>
 </template>
