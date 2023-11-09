@@ -186,7 +186,6 @@ export default defineComponent({
         </template>
       </FullCalendar>
     </div>
-    
   </div>
 </template>
 

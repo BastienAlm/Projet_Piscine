@@ -142,21 +142,28 @@
       <div style="flex: 50%; background-color: gray"></div> -->
       <slot  />
       <div class="controls">
-			<button class='bg-green-600 hover:bg-green-700 text-white focus:ring-2 focus:ring-green-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button'  v-if='!isStarted' @click="start">
+			<!--<button class='bg-green-600 hover:bg-green-700 text-white focus:ring-2 focus:ring-green-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button'  v-if='!isStarted' @click="start">-->
+        <button class="PlayButton">
 				<!-- <Icon icon="clarity:play-solid" :inline="true" /> -->
-        <font-awesome-icon icon="fa-solid fa-user-secret" />
+        <font-awesome-icon icon="fa-solid fa-play" />
 				Start
 			</button>
-			<button class='bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-2 focus:ring-yellow-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='pause' v-else>
-				<Icon icon="clarity:pause-solid" :inline="true" />
+			<!--<button class='bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-2 focus:ring-yellow-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='pause' v-else>-->
+        <button class="PauseButton">
+				<!--<Icon icon="clarity:pause-solid" :inline="true" />-->
+        <font-awesome-icon icon="fa-solid fa-pause" />
 				Pause
 			</button>
-			<button class='bg-red-600 hover:bg-red-700 text-white focus:ring-2 focus:ring-red-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='stop' v-if='!isStopped'>
-				<Icon icon="clarity:stop-solid" :inline="true" />
+			<!--<button class='bg-red-600 hover:bg-red-700 text-white focus:ring-2 focus:ring-red-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='stop' v-if='!isStopped'>-->
+        <button class="StopButton">
+				<!--<Icon icon="clarity:stop-solid" :inline="true" />-->
+        <font-awesome-icon icon="fa-solid fa-stop" />
 				Stop
 			</button>
-			<button class='bg-blue-700 hover:bg-blue-800 text-white focus:ring-2 focus:ring-blue-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='countup' v-if='!countingUp'>
-				<Icon icon="clarity:plus-circle-solid" :inline="true" />
+			<!--<button class='bg-blue-700 hover:bg-blue-800 text-white focus:ring-2 focus:ring-blue-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='countup' v-if='!countingUp'>-->
+        <button class="CountUpButton">
+				<!--<Icon icon="clarity:plus-circle-solid" :inline="true" />-->
+        <font-awesome-icon icon="fa-solid fa-circle-plus" />
 				Count Up
 			</button>
 		</div>
@@ -367,5 +374,21 @@ p {
   align-self: left;
   margin-top: -15px;
   margin-left: 10px;
+}
+
+.PlayButton {
+  background-color: rgb(27, 185, 27);
+}
+
+.PauseButton {
+  background-color: rgb(255, 234, 0);
+}
+
+.StopButton {
+  background-color: rgb(230, 0, 0);
+}
+
+.CountUpButton {
+  background-color: rgb(0, 68, 255);
 }
 </style>

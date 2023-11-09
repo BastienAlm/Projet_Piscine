@@ -26,7 +26,6 @@
     "chart.js": "^4.4.0",
     "moment": "^2.29.4",
     "vee-validate": "^4.3.5",
-    "vite": "^2.5.4",
     "vue": "^3.3.8",
     "vue-chartjs": "^5.2.0",
     "vue-router": "^4.2.5",
