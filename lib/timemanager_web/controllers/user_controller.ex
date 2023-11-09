@@ -2,8 +2,7 @@ defmodule TimemanagerWeb.UserController do
   use TimemanagerWeb, :controller
 
   import Ecto.Query
-
-  alias Argon2.Base
+  alias Pbkdf2
   alias Timemanager.Users
   alias Timemanager.Users.User
   alias Timemanager.Repo
@@ -19,7 +18,9 @@ defmodule TimemanagerWeb.UserController do
 
     password = Map.get(user_params, "password")
 
-    hash = Base.hash_password(password, Base.gen_salt(16))
+    salt = Pbkdf2.Base.gen_salt(salt_len: 50)
+
+    hash = Pbkdf2.Base.hash_password(password, salt, [:hex])
 
     newuser_params = Map.merge(user_params, %{ "password" => hash})
 
@@ -45,9 +46,11 @@ defmodule TimemanagerWeb.UserController do
 
     oldhash = user.password;
 
-    valid = true #Bcrypt.verify_pass(oldpassword, oldhash);
+    valid = Pbkdf2.verify_pass(oldpassword, oldhash)
 
-    newhash = newpassword #Bcrypt.Base.hash_password(newpassword, Base.gen_salt(12, true))
+    salt = Pbkdf2.Base.gen_salt(salt_len: 50)
+
+    newhash = Pbkdf2.Base.hash_password(newpassword, salt, [:hex])
 
 
    if  valid and newpassword != ""  do
@@ -89,7 +92,7 @@ defmodule TimemanagerWeb.UserController do
 
     hash = List.last(user).password #Map.get(List.last(user),"password")
 
-    valid = Argon2.verify_pass(password, hash)
+    valid = Pbkdf2.verify_pass(password, hash)
 
     currentTime = Joken.CurrentTime.OS.current_time + 30 * 24 * 60 * 60
 

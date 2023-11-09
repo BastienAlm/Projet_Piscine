@@ -8,7 +8,7 @@
           phoenix_ecto,ecto_sql,postgrex,phoenix_html,phoenix_live_reload,
           phoenix_live_view,phoenix_live_dashboard,esbuild,tailwind,swoosh,
           finch,telemetry_metrics,telemetry_poller,gettext,jason,dns_cluster,
-          plug_cowboy,joken,argon2_elixir,plug]},
+          plug_cowboy,joken,pbkdf2_elixir,plug]},
      {description,"timemanager"},
      {modules,
          ['Elixir.Timemanager','Elixir.Timemanager.Application',
