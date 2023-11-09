@@ -11,8 +11,8 @@ Build:
     - docker:19-dind
   before_script:
     - apk add --no-cache curl jq python3 py3-pip
-    - apk get make
-    - apt get build-base
+    - apk add make
+    - apt add build-base
     - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
   script:
     - docker build -t $DOCKER_REGISTRY/gotham-api:latest .
