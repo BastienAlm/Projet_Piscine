@@ -33,19 +33,20 @@ export default {
     list-style: none;
 }
 ul li{
-    text-align:center;
+    text-align: center;
 }
 
 .container {
   display: flex;
   justify-content: center;
+  word-spacing: 45px;
 }
 
 a.router-link-exact-active {
   color: #42b983 !important;
 }
 
-a.router-link-active  {
+a.router-link-active {
     /* color: unset !important;
     text-transform: unset;
     font-weight: unset;

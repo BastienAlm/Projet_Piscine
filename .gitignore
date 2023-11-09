@@ -1,4 +1,4 @@
-.DS_Store
+ r .DS_Store
 node_modules
 /dist
 
@@ -21,3 +21,4 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+package-lock.json
