@@ -51,7 +51,7 @@ defmodule Timemanager.MixProject do
       {:jason, "~> 1.3"},
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
-      {:bcrypt_elixir, "~> 3.0"},
+      {:bcrypt_elixir, "~> 0.12"},
       {:joken, "~> 2.6"},
       {:corsica, "~> 2.0"},
       {:poison, "~> 3.1"},
