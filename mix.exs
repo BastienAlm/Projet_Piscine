@@ -55,7 +55,8 @@ defmodule Timemanager.MixProject do
       {:joken, "~> 2.6"},
       {:corsica, "~> 2.0"},
       {:poison, "~> 3.1"},
-      {:plug, "~> 1.3"}
+      {:plug, "~> 1.3"},
+      {:elixir_make, "~> 0.4", runtime: false}
 
 
     ]
