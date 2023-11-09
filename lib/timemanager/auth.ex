@@ -2,9 +2,6 @@ defmodule Timemanager.PlugAuthenticate do
   import Plug.Conn
   require Logger
 
-  alias Timemanager.Users
-
-
   def init(opts) do
     opts
   end
