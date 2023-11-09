@@ -14,7 +14,6 @@ defmodule Timemanager.PlugAuthenticate do
     else
       error ->
         conn
-
         |> put_status(:unauthorized)
         |> send_resp(:unauthorized, "Invalid credentials")
         |> halt()

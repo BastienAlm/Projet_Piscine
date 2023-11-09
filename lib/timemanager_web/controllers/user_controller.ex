@@ -3,8 +3,7 @@ defmodule TimemanagerWeb.UserController do
 
   import Ecto.Query
 
-
- # alias Bcrypt.Base
+  alias Argon2.Base
   alias Timemanager.Users
   alias Timemanager.Users.User
   alias Timemanager.Repo
@@ -20,7 +19,7 @@ defmodule TimemanagerWeb.UserController do
 
     password = Map.get(user_params, "password")
 
-    hash = password # Base.hash_password(password, Base.gen_salt(12, true))
+    hash = Base.hash_password(password, Base.gen_salt(16))
 
     newuser_params = Map.merge(user_params, %{ "password" => hash})
 
@@ -90,7 +89,7 @@ defmodule TimemanagerWeb.UserController do
 
     hash = List.last(user).password #Map.get(List.last(user),"password")
 
-    valid = true #Bcrypt.verify_pass(password, hash)
+    valid = Argon2.verify_pass(password, hash)
 
     currentTime = Joken.CurrentTime.OS.current_time + 30 * 24 * 60 * 60
 
