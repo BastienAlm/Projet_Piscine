@@ -18,3 +18,5 @@ RUN mix compile
 RUN mix release
 
 EXPOSE 4000
+
+CMD [ "mix", "ecto.reset" ]

@@ -19,7 +19,7 @@ defmodule Timemanager.MixProject do
   def application do
     [
       mod: {Timemanager.Application, []},
-      extra_applications: [:logger, :runtime_tools, :corsica, :poison ]
+      extra_applications: [:logger, :runtime_tools, :corsica, :poison, ]
     ]
   end
 
@@ -55,7 +55,8 @@ defmodule Timemanager.MixProject do
       {:corsica, "~> 2.0"},
       {:poison, "~> 3.1"},
       {:pbkdf2_elixir, "~> 2.0"},
-      {:plug, "~> 1.3"}
+      {:plug, "~> 1.3"},
+      {:cors_plug, "~> 3.0"}
 
     ]
   end
@@ -77,4 +78,5 @@ defmodule Timemanager.MixProject do
       "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
+
 end
