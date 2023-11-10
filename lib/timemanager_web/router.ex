@@ -22,6 +22,7 @@ defmodule TimemanagerWeb.Router do
   scope "/api", TimemanagerWeb do
     pipe_through :api
     post "/users/sign_in", UserController, :sign_in
+    post "/users", UserController, :create
   end
 
 
@@ -29,7 +30,7 @@ defmodule TimemanagerWeb.Router do
     pipe_through [:api, :authenticated]
 
     resources "/users", UserController
-
+    get "users/current", UserController, :current
 
     resources "/clocks", ClockController, except: [:create, :show]
     post "/clocks/:userID", ClockController, :create
@@ -40,6 +41,11 @@ defmodule TimemanagerWeb.Router do
     get "/workingtimes/:userID", WorkingtimeController, :show
     get "/workingtimes/:userID/:id", WorkingtimeController, :showbyid
     put "/workingtimes/:id", WorkingtimeController, :update
+
+    resources "/roles", RoleController
+
+    resources "/teams", TeamController
+
 
 
 
