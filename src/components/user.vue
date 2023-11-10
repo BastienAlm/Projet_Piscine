@@ -1,4 +1,4 @@
-<template>
+<template class="row">
   <Header/>
   <NavbarHead/>
   <div class="row">

@@ -49,7 +49,37 @@ export default {
         id: '1',
         start: '11/10/2023 02:03',
         userId: '1'
-      }
+      },
+      {
+        end: '11/10/2023 02:03',
+        id: '1',
+        start: '11/10/2023 02:03',
+        userId: '1'
+      },
+      {
+        end: '11/10/2023 02:03',
+        id: '1',
+        start: '11/10/2023 02:03',
+        userId: '1'
+      },
+      {
+        end: '11/10/2023 02:03',
+        id: '1',
+        start: '11/10/2023 02:03',
+        userId: '1'
+      },
+      {
+        end: '11/10/2023 02:03',
+        id: '1',
+        start: '11/10/2023 02:03',
+        userId: '1'
+      },
+      {
+        end: '11/10/2023 02:03',
+        id: '1',
+        start: '11/10/2023 02:03',
+        userId: '1'
+      },
     ],
     }
   },
@@ -219,5 +249,7 @@ export default {
 
 .container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>
