@@ -92,6 +92,9 @@ export default {
       return minute;
     }
   },
+  onMounted() {
+    this.getWorkingTimes();
+  },
   computed: {
     formattedDate() {
       const date = new Date(this.workingsTable[0].end); // Replace this with your actual date object
