@@ -65,7 +65,7 @@ export default defineConfig({
           {
             // Fetches API data from network first and caches subsequent responses with Network First strategy.
             urlPattern: new RegExp(
-              "http://mock-json-server-39aq.onrender.com/(.*)"
+              "^http://localhost:4000/api/workingtimes/1"
             ),
             handler: "NetworkFirst",
             options: {

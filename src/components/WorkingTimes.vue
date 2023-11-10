@@ -1,4 +1,4 @@
-<template>
+<template v-slot="scope">
   <div>
       <h1 @click="getWorkingTimes">Working Times</h1>
     <div class="container">
@@ -37,7 +37,20 @@ export default {
   name: 'WorkingTimes',
   data() {
     return {
-      workingsTable: [],
+      workingsTable: [
+      {
+        end: '11/10/2023 02:03',
+        id: '1',
+        start: '11/10/2023 02:03',
+        userId: '1'
+      },
+      {
+        end: '11/10/2023 02:03',
+        id: '1',
+        start: '11/10/2023 02:03',
+        userId: '1'
+      }
+    ],
     }
   },
   methods: {
@@ -51,7 +64,7 @@ export default {
           // console.log(this.getMonthName(response.data.data[i].end));
           response.data.data[i].end = this.dateFormat(response.data.data[i].end);
           response.data.data[i].start = this.dateFormat(response.data.data[i].start);
-          this.workingsTable.push(response.data.data[i]);
+          // this.workingsTable.push(response.data.data[i]);
         }
         console.log(this.workingsTable);
         // this.workingsTable.push(response.data.data);
