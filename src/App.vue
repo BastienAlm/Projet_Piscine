@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="row">
     <component :is="$route.meta.layout || 'div'">
       <install-prompt></install-prompt>
       <router-view></router-view>

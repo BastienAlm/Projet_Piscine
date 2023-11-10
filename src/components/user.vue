@@ -134,7 +134,6 @@
             <span class='text-xl hidden group-hover:inline ml-1'><Icon icon="clarity:pencil-solid" :inline="true" /></span>
           </p>
         </div>
-		
 	</div>
     </div>
     <div class="column2">
@@ -589,18 +588,22 @@ p {
 }
 
 .PlayButton {
-  background-color: rgb(27, 185, 27);
+  background-color: rgb(43, 194, 43);
+  margin-right: 20px;
+  margin-top: 15px;
 }
 
 .PauseButton {
   background-color: rgb(255, 234, 0);
+  margin-right: 20px;
 }
 
 .StopButton {
   background-color: rgb(230, 0, 0);
+  margin-right: 20px;
 }
 
 .CountUpButton {
-  background-color: rgb(0, 68, 255);
+  background-color: rgb(70, 118, 249);
 }
 </style>
