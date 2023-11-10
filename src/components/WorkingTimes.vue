@@ -1,4 +1,4 @@
-<template v-slot="scope">
+<template >
   <div>
       <h1 @click="getWorkingTimes">Working Times</h1>
     <div class="container">
@@ -38,55 +38,26 @@ export default {
   data() {
     return {
       workingsTable: [
-      {
-        end: '11/10/2023 02:03',
-        id: '1',
-        start: '11/10/2023 02:03',
-        userId: '1'
-      },
-      {
-        end: '11/10/2023 02:03',
-        id: '1',
-        start: '11/10/2023 02:03',
-        userId: '1'
-      },
-      {
-        end: '11/10/2023 02:03',
-        id: '1',
-        start: '11/10/2023 02:03',
-        userId: '1'
-      },
-      {
-        end: '11/10/2023 02:03',
-        id: '1',
-        start: '11/10/2023 02:03',
-        userId: '1'
-      },
-      {
-        end: '11/10/2023 02:03',
-        id: '1',
-        start: '11/10/2023 02:03',
-        userId: '1'
-      },
-      {
-        end: '11/10/2023 02:03',
-        id: '1',
-        start: '11/10/2023 02:03',
-        userId: '1'
-      },
-      {
-        end: '11/10/2023 02:03',
-        id: '1',
-        start: '11/10/2023 02:03',
-        userId: '1'
-      },
+      // {
+      //   end: '11/10/2023 02:03',
+      //   id: '1',
+      //   start: '11/10/2023 02:03',
+      //   userId: '1'
+      // },
+      // {
+      //   end: '11/10/2023 02:03',
+      //   id: '1',
+      //   start: '11/10/2023 02:03',
+      //   userId: '1'
+      // }
     ],
     }
   },
   methods: {
     getWorkingTimes(){
       console.log(this.$route.params.userId );
-      axios.get(`http://localhost:4000/api/workingtimes/${this.$route.params.userId}`)
+      // axios.get(`http://localhost:4000/api/workingtimes/${this.$route.params.userId}`)
+      axios.get(`http://13.51.249.253/api/workingtimes/${this.$route.params.userId}`)
       .then((response) => {
         console.log(response.data.data);
         console.log(this.dateFormat(response.data.data[0].end));
@@ -94,7 +65,7 @@ export default {
           // console.log(this.getMonthName(response.data.data[i].end));
           response.data.data[i].end = this.dateFormat(response.data.data[i].end);
           response.data.data[i].start = this.dateFormat(response.data.data[i].start);
-          // this.workingsTable.push(response.data.data[i]);
+           this.workingsTable.push(response.data.data[i]);
         }
         console.log(this.workingsTable);
         // this.workingsTable.push(response.data.data);

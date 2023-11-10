@@ -22,3 +22,12 @@ pnpm-debug.log*
 *.sln
 *.sw?
 package-lock.json
+dev-dist/sw.js
+dev-dist/workbox-e5247b1d.js
+public/assets/index.2f14dda9.css
+public/assets/index.41bf7202.js
+public/assets/Login.08c2301f.css
+public/assets/Login.90f3039f.js
+public/index.html
+public/manifest.webmanifest
+public/registerSW.js

@@ -97,83 +97,69 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style scoped >
 p {
-   line-height: 1rem;
+	 line-height: 1rem;
 }
-
-.card {
-   padding: 20px;
+ .card {
+	 padding: 20px;
 }
-
-.form-group {
-   input {
-      margin-bottom: 20px;
-   }
+ .form-group input {
+	 margin-bottom: 20px;
 }
-form.form-group {
-   display: unset;
+ form.form-group {
+	 display: unset;
 }
-
-.login-page {
-   align-items: center;
-   display: flex;
-   height: 100vh;
-
-   .wallpaper-login {
-      background: url(https://images.unsplash.com/photo-1561487767-1f32d174cce0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-         no-repeat center center;
-      background-size: cover;
-      height: 100%;
-      position: absolute;
-      width: 100%;
-   }
-   
-   .fade-enter-active,
-   .fade-leave-active {
-  transition: opacity .5s;
+ .login-page {
+	 align-items: center;
+	 display: flex;
+	 height: 100vh;
 }
-   .fade-enter,
-   .fade-leave-to {
-      opacity: 0;
-   }
-   
-   .wallpaper-register {
-      background: url(https://images.unsplash.com/photo-1561487767-1f32d174cce0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
-         no-repeat center center;
-      background-size: cover;
-      height: 100%;
-      position: absolute;
-      width: 100%;
-      z-index: -1;
-   }
-
-   h1 {
-      margin-bottom: 1.5rem;
-   }
+ .login-page .wallpaper-login {
+	 background: url(https://images.unsplash.com/photo-1561487767-1f32d174cce0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) no-repeat center center;
+	 background-size: cover;
+	 height: 100%;
+	 position: absolute;
+	 width: 100%;
 }
-
-.error {
-   animation-name: errorShake;
-   animation-duration: 0.3s;
+ .login-page .fade-enter-active, .login-page .fade-leave-active {
+	 transition: opacity 0.5s;
 }
-
-@keyframes errorShake {
-   0% {
-      transform: translateX(-25px);
-   }
-   25% {
-      transform: translateX(25px);
-   }
-   50% {
-      transform: translateX(-25px);
-   }
-   75% {
-      transform: translateX(25px);
-   }
-   100% {
-      transform: translateX(0);
-   }
+ .login-page .fade-enter, .login-page .fade-leave-to {
+	 opacity: 0;
 }
+ .login-page .wallpaper-register {
+	 background: url(https://images.unsplash.com/photo-1561487767-1f32d174cce0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D) no-repeat center center;
+	 background-size: cover;
+	 height: 100%;
+	 position: absolute;
+	 width: 100%;
+	 z-index: -1;
+}
+ .login-page h1 {
+	 margin-bottom: 1.5rem;
+}
+ .error {
+	 animation-name: errorShake;
+	 animation-duration: 0.3s;
+}
+ @keyframes errorShake {
+	 0% {
+		 transform: translateX(-25px);
+	}
+	 25% {
+		 transform: translateX(25px);
+	}
+	 50% {
+		 transform: translateX(-25px);
+	}
+	 75% {
+		 transform: translateX(25px);
+	}
+	 100% {
+		 transform: translateX(0);
+	}
+}
+ 
 
 </style>

@@ -55,6 +55,7 @@ export default defineComponent({
   methods: {
     handleWeekendsToggle() {
       this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
+      this.$emit("start");
     },
     handleDateSelect(selectInfo) {
       let title = prompt('Please enter a new title for your working time')
@@ -134,6 +135,10 @@ export default defineComponent({
     start(){
       console.log("start");
       this.$emit('start');
+      
+    },
+    next(){
+      this.$emit('next');
     }
 
   },computed:{
@@ -144,11 +149,11 @@ export default defineComponent({
 
 </script>
 
-<template>
+<template v-slot="{ events: { fnNext, fnClose } }">
   <div class='demo-app'>
     <div class='demo-app-sidebar'>
       <div class='demo-app-sidebar-section'>
-        <h2>Instructions</h2>
+        <h2 >Instructions</h2>
         <ul>
           <li>Select dates and you will be prompted to create a new clockTime</li>
           <li>Drag, drop, and resize worksTimes / clockTimes</li>
@@ -186,6 +191,7 @@ export default defineComponent({
         </template>
       </FullCalendar>
     </div>
+   
   </div>
 </template>
 
@@ -259,4 +265,6 @@ b { /* used for event dates/times */
     margin: 0;
     padding: 0;   
 }
+
+
 </style>

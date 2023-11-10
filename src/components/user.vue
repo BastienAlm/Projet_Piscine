@@ -1,6 +1,6 @@
 <template class="row">
   <Header/>
-  <NavbarHead/>
+  <NavbarHead />
   <div class="row">
     <div class="column1" style="background-color: #aaa">
       <div style="font-size: large; font-weight: 700; height: 25px">
@@ -139,34 +139,36 @@
     <div class="column2">
       <!-- <div style="flex: 50%; background-color: lightgray"></div>
       <div style="flex: 50%; background-color: gray"></div> -->
-      <slot  />
-      <div class="controls">
-			<!--<button class='bg-green-600 hover:bg-green-700 text-white focus:ring-2 focus:ring-green-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button'  v-if='!isStarted' @click="start">-->
-        <button class="PlayButton">
-				<!-- <Icon icon="clarity:play-solid" :inline="true" /> -->
-        <font-awesome-icon icon="fa-solid fa-play" />
-				Start
-			</button>
-			<!--<button class='bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-2 focus:ring-yellow-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='pause' v-else>-->
-        <button class="PauseButton">
-				<!--<Icon icon="clarity:pause-solid" :inline="true" />-->
-        <font-awesome-icon icon="fa-solid fa-pause" />
-				Pause
-			</button>
-			<!--<button class='bg-red-600 hover:bg-red-700 text-white focus:ring-2 focus:ring-red-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='stop' v-if='!isStopped'>-->
-        <button class="StopButton">
-				<!--<Icon icon="clarity:stop-solid" :inline="true" />-->
-        <font-awesome-icon icon="fa-solid fa-stop" />
-				Stop
-			</button>
-			<!--<button class='bg-blue-700 hover:bg-blue-800 text-white focus:ring-2 focus:ring-blue-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='countup' v-if='!countingUp'>-->
-        <button class="CountUpButton">
-				<!--<Icon icon="clarity:plus-circle-solid" :inline="true" />-->
-        <font-awesome-icon icon="fa-solid fa-circle-plus" />
-				Count Up
-			</button>
-		</div>
+      <slot  :events="{ atClickNext: fnNext, atClickClose: fnClose }"></slot> 
+      <!-- <WorkingTime @start="console.log('start')"/> -->
+     
     </div>
+    <div class="controls" >
+      <!--<button class='bg-green-600 hover:bg-green-700 text-white focus:ring-2 focus:ring-green-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button'  v-if='!isStarted' @click="start">-->
+        <button  class="PlayButton" v-if='!isStarted' @click="fnNext">
+        <!-- <Icon icon="clarity:play-solid" :inline="true" /> -->
+        <font-awesome-icon icon="fa-solid fa-play" />
+        Start
+      </button>
+      <!--<button class='bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-2 focus:ring-yellow-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='pause' v-else>-->
+        <button class="PauseButton" @click="fnClose">
+        <!--<Icon icon="clarity:pause-solid" :inline="true" />-->
+        <font-awesome-icon icon="fa-solid fa-pause" />
+        Pause
+      </button>
+      <!--<button class='bg-red-600 hover:bg-red-700 text-white focus:ring-2 focus:ring-red-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='stop' v-if='!isStopped'>-->
+        <button class="StopButton" @click="$parent.$emit('stop')">
+        <!--<Icon icon="clarity:stop-solid" :inline="true" />-->
+        <font-awesome-icon icon="fa-solid fa-stop" />
+        Stop
+      </button>
+      <!--<button class='bg-blue-700 hover:bg-blue-800 text-white focus:ring-2 focus:ring-blue-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='countup' v-if='!countingUp'>-->
+        <button class="CountUpButton" @click="$parent.$emit('countingUp')">
+        <!--<Icon icon="clarity:plus-circle-solid" :inline="true" />-->
+        <font-awesome-icon icon="fa-solid fa-circle-plus" />
+        Count Up
+      </button>
+		</div>
   </div>
 </template>
 
@@ -176,11 +178,13 @@ import Header from './Header.vue';
 import NavbarHead from './NavbarHead.vue';
 import { ref, computed } from 'vue';
 import {useRoute} from 'vue-router'
+import WorkingTime from './WorkingTime.vue';
 export default {
   name: "User",
   components: {
     Header,
-    NavbarHead
+    NavbarHead,
+    WorkingTime
   },
   props: { users: Array },
 
@@ -212,7 +216,7 @@ export default {
     async getUser() {
       try {
         let response = await fetch(
-          `http://localhost:4000/api/users/${
+          `http://13.51.249.253/api/users/${
             this.id
           }`);
           const data = await response.json(); 
@@ -289,6 +293,9 @@ export default {
         console.log(error);
       }
     },
+    fnNext(){
+      console.log("next");
+    }
   },
   setup() {
 
