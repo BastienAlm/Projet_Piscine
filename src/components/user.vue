@@ -293,7 +293,7 @@ export default {
   setup() {
 
     const route =useRoute();
-    const path = computed(() =>route.path)
+    // const path = computed(() =>route.path)
     const timeUnitSeconds = [
       1,
       60,
@@ -337,7 +337,7 @@ export default {
     frameInterval = () => {}
     
 
-    const isRunning = ref (path.value == "/workingTime/1/1" ? true : false)
+    // const isRunning = ref (path.value == "/workingTime/1/1" ? true : false)
 
     function start() {
       console.log("je start");
@@ -527,7 +527,7 @@ export default {
       targetTimestamp,
       pausedDifference,
       isBlinking,
-      isRunning,
+      // isRunning,
       start,
       frameInterval,
       updateDisplay,
