@@ -18,9 +18,14 @@ Build:
 
 Deploy:
   stage: deploy
-  script:
+  image:
+    name: docker:latest
+  services:
+    - docker:19-dind
+  before_script:
     - apk add --no-cache curl jq python3 py3-pip
     - pip install ansible
     - echo "$SSH_PRIVATE_KEY" > deploy_key.pem
     - chmod 400 deploy_key.pem
+  script:
     - ansible-playbook -i "$INSTANCE_IP," -u ec2-user -i ./deploy_key.pem deploy-playbook.yml
