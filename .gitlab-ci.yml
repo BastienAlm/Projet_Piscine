@@ -19,7 +19,7 @@ Build:
 Deploy:
   stage: deploy
   script:
-    - apk add --update py-pip
+    - apk add --no-cache curl jq python3 py3-pip
     - pip install ansible
     - echo "$SSH_PRIVATE_KEY" > deploy_key.pem
     - chmod 400 deploy_key.pem
