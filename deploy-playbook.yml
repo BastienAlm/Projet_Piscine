@@ -2,21 +2,6 @@
   become: true
 
   tasks:
-    - name: Install Docker dependencies
-      yum:
-        name:
-          - docker
-          - docker-client
-          - docker-compose
-          - docker-latest
-        state: present
-
-    - name: Start Docker service
-      systemd:
-        name: docker
-        state: started
-        enabled: yes
-
     - name: Run docker-compose down
       command: docker-compose down
       args:
