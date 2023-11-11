@@ -2,18 +2,19 @@
   <Header/>
   <NavbarHead/>
   <div class="row">
-    <div class="column1" style="background-color: #aaa">
+    <!--<div class="column1" style="background-color: #aaa">-->
+      <div class="column1">
       <div style="font-size: large; font-weight: 700; height: 25px">
         Employees              
       </div>
-      <div style="margin-left: -74%; height: 20px; margin-top: -2%">
+      <div style="margin-left: ; height: 20px; margin-top: 3%">
         <h5>Search Employee</h5>                                  
       </div>
       <div class="custom1">
         <form @submit.prevent="getUser">
           <label style="font-size: 14px" for="fname">User Id: &nbsp</label>
           <input
-            style="border-radius: 3px; border-style: none"
+            style="border-radius:; border-style:"
             type="text"
             id="userId"
             name="userId"                  
@@ -41,7 +42,7 @@
             >Username: &nbsp</label
           >
           <input
-            style="border-radius: 3px; border-style: none"
+            style="border-radius: ; border-style:"
             type="text"
             id="createusername"
             name="createusername"
@@ -49,7 +50,7 @@
           />
           <label style="font-size: 14px" for="fname">Email: &nbsp</label>
           <input
-            style="border-radius: 3px; border-style: none"
+            style="border-radius: ; border-style: "
             type="text"
             id="createemail"
             name="createemail"
@@ -68,7 +69,7 @@
             >User Id: &nbsp</label
           >
           <input
-            style="border-radius: 3px; border-style: none"
+            style="border-radius: ; border-style: "
             type="text"
             id="updateId"
             name="updateId"
@@ -86,7 +87,7 @@
           <br />
           <label style="font-size: 14px" for="fname">Email: &nbsp</label>
           <input
-            style="border-radius: 3px; border-style: none; margin-right: 9%"
+            style="border-radius: ; border-style: ; margin-right: 5%"
             type="text"
             id="updateemail"
             name="updateemail"
@@ -105,7 +106,7 @@
             >User Id: &nbsp</label
           >
           <input
-            style="border-radius: 3px; border-style: none"
+            style="border-radius: ; border-style: "
             type="text"
             id="useriddel"
             name="useridde"
@@ -605,5 +606,9 @@ p {
 
 .CountUpButton {
   background-color: rgb(70, 118, 249);
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  margin-top: 2%;
 }
 </style>
