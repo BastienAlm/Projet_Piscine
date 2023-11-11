@@ -27,4 +27,4 @@ Deploy:
     - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
     - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
   script:
-    - aws ssm send-command --region $REGION --document-name "AWS-RunShellScript" --instance-ids "$INSTANCE_ID" --parameters '{"commands":["#!/bin/bash","docker-compose down","docker image rm -f $DOCKER_REGISTRY/gotham-api","docker-compose up"]}'
+    - aws ssm send-command --region $REGION --document-name "AWS-RunShellScript" --instance-ids "$INSTANCE_ID" --parameters '{"commands":["#!/bin/bash","cd /home/ec2-user","docker-compose down","docker image rm -f $DOCKER_REGISTRY/gotham-api","docker image pull $DOCKER_REGISTRY/gotham-api:latest ","docker-compose up"]}'
