@@ -1,0 +1,38 @@
+- hosts: 13.51.249.253
+  become: true
+
+  tasks:
+    - name: Install Docker dependencies
+      yum:
+        name:
+          - docker
+          - docker-client
+          - docker-compose
+          - docker-latest
+        state: present
+
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Run docker-compose down
+      command: docker-compose down
+      args:
+        chdir: /home/ec2-user
+
+    - name: Delete current image
+      command: docker image rm -f pavlotchof/gotham-api
+      args:
+        chdir: /home/ec2-user
+
+    - name: Pull image
+      command: docker image pull pavlotchof/gotham-api:latest
+      args:
+        chdir: /home/ec2-user
+
+    - name: Run docker-compose up
+      command: docker-compose up
+      args:
+        chdir: /home/ec2-user
