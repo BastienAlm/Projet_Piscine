@@ -25,7 +25,7 @@ defmodule TimemanagerWeb.WorkingtimeController do
     clockout = DateTime.utc_now();
     clockin = List.last(clock).time
 
-    newworkingtime = if workingtime_params === {nil} do
+    newworkingtime = if workingtime_params !== %{} do
 
       Map.merge(workingtime_params, %{"user" => userID})
 

@@ -80,7 +80,9 @@ defmodule TimemanagerWeb.UserController do
 
       {:ok, jwt} =  Joken.Signer.sign(claims, Joken.Signer.create("HS256", "32aUJJ6sg18Habq7PfISeAIuww5d+S6x5V5XawBMRg4fPgn2TqvachtuJa5JTYR8"))
 
-      conn |> render( :sign, token: jwt)
+      token = %{"token" => jwt, "user_id" => user.id, "user_role" => user.role}
+
+      conn |> render( :sign, token: token)
 
     else
       false ->
