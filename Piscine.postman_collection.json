@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "9b4b21bc-8ffb-42d3-bfd7-c85ddcf301e0",
+		"name": "Piscine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26929882"
+	},
+	"item": [
+		{
+			"name": "TimeManager",
+			"item": [
+				{
+					"name": "Users_api",
+					"item": [
+						{
+							"name": "getUserByFilter",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://13.51.249.253/api/users?email&username",
+									"protocol": "http",
+									"host": [
+										"13",
+										"51",
+										"249",
+										"253"
+									],
+									"path": [
+										"api",
+										"users"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": null
+										},
+										{
+											"key": "username",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUserByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "http://13.51.249.253/api/users/1"
+							},
+							"response": []
+						},
+						{
+							"name": "createUser",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjEzMDA4MTkzODAsInJvbGUiOiJtYW5hZ2VyIiwidXNlcl9pZCI6Mn0.VSOLB8b8-s-FxODuVdoy_lzYR3k7ad3NF2C_tas-x4A"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"user\":{\n    \"email\":\"dupont12@gmail.com\",\n    \"username\":\"dupont\",\n    \"role\":\"general-manager\",\n    \"team\":\"devops\",\n    \"password\":\"dupont12\"\n}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/users"
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"dupont12@gmail.com\",\n    \"password\":\"dupont12\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/users/sign_in"
+							},
+							"response": []
+						},
+						{
+							"name": "updateUserByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIxMzkyNjMsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNjk5NTQ3MjYzLCJ1c2VyX2lkIjoxfQ.RVGAQDRvmnPO-AhwS3b39hBjG6-RA6i3LfpZSiWeknE"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user\":{\n        \"username\":\"dupont12\",\n        \"newpassword\":\"\",\n        \"oldpassword\":\"dupont12\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/users/1"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteUserByID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIxMTgzMTMsInJvbGUiOiJtYW5hZ2VyIiwidXNlcl9pZCI6M30.Jg7hHMYw_3H8V3-V6IT9Q4JaYljJw0mTH4cHuCCZT5Y"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "http://13.51.249.253/api/users/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Clock_api",
+					"item": [
+						{
+							"name": "getClockByuserID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "http://13.51.249.253/api/clocks/1"
+							},
+							"response": []
+						},
+						{
+							"name": "createClockUpdateClock",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"clock\":{}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/clocks/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Workingtime_api",
+					"item": [
+						{
+							"name": "getAllWorktimeFilter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://13.51.249.253/api/workingtimes/2?start=XXX&end=YYY",
+									"protocol": "http",
+									"host": [
+										"13",
+										"51",
+										"249",
+										"253"
+									],
+									"path": [
+										"api",
+										"workingtimes",
+										"2"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "XXX"
+										},
+										{
+											"key": "end",
+											"value": "YYY"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getWorktimeByID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://13.51.249.253/api/workingtimes/2/1"
+							},
+							"response": []
+						},
+						{
+							"name": "createWorktimeByUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"workingtime\":{}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/workingtimes/1"
+							},
+							"response": []
+						},
+						{
+							"name": "updateWorktimeByID",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"workingtime\":{}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/workingtimes/8"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteWorktimeByID",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "http://13.51.249.253/api/workingtimes/7"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Roles_api",
+					"item": [
+						{
+							"name": "getAllRoles",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "getRoleById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIxMzkyNjMsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNjk5NTQ3MjYzLCJ1c2VyX2lkIjoxfQ.RVGAQDRvmnPO-AhwS3b39hBjG6-RA6i3LfpZSiWeknE"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:4000/api/roles/1"
+							},
+							"response": []
+						},
+						{
+							"name": "createRole",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIxMzkyNjMsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNjk5NTQ3MjYzLCJ1c2VyX2lkIjoxfQ.RVGAQDRvmnPO-AhwS3b39hBjG6-RA6i3LfpZSiWeknE"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"role\":{\n    \"rolename\":\"manager\",\n    \"description\": \"manager has access to his team data and charts\"\n}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/roles"
+							},
+							"response": []
+						},
+						{
+							"name": "deleterole",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIxMzkyNjMsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNjk5NTQ3MjYzLCJ1c2VyX2lkIjoxfQ.RVGAQDRvmnPO-AhwS3b39hBjG6-RA6i3LfpZSiWeknE"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "http://localhost:4000/api/roles/1"
+							},
+							"response": []
+						},
+						{
+							"name": "updaterole",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"role\":{\n    \"rolename\":\"genaral-manager\",\n    \"description\": \"the general manager has access to all api calls and can promote users to managers.\"}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/roles/1"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "teams",
+					"item": [
+						{
+							"name": "getallTeam",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "http://13.51.249.253/api/teams"
+							},
+							"response": []
+						},
+						{
+							"name": "createTeam",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"team\":{\n    \"teamname\":\"iot\",\n    \"teamlead\":1,\n    \"description\":\"internet of object team\"\n}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/teams"
+							},
+							"response": []
+						},
+						{
+							"name": "getTeamById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "http://13.51.249.253/api/teams/1"
+							},
+							"response": []
+						},
+						{
+							"name": "updateTeam",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"team\":{\n    \"teamname\":\"iot\",\n    \"teamlead\":2,\n    \"description\":\"internet of objects and virtual reality.\"\n}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://13.51.249.253/api/teams/1"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteteam",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": "http://13.51.249.253/api/teams/2"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

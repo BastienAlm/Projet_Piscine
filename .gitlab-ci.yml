@@ -12,7 +12,8 @@ Build:
   before_script:
     - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD
   script:
-    - docker build -t $DOCKER_REGISTRY/gotham-api:latest .
+    - docker build -t $DOCKER_REGISTRY/gotham-api .
+    - docker tag $DOCKER_REGISTRY/gotham-api $DOCKER_REGISTRY/gotham-api:latest
     - docker push $DOCKER_REGISTRY/gotham-api:latest
 
 Deploy:
@@ -26,4 +27,4 @@ Deploy:
     - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
     - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
   script:
-    - aws ssm send-command --region $REGION --document-name "AWS-RunShellScript" --instance-ids "$INSTANCE_ID" --parameters '{"commands":["#!/bin/bash","cd /home/ec2-user","sudo docker-compose down","sudo docker image rm -f $DOCKER_REGISTRY/gotham-api","sudo docker-compose up"]}'
+    - aws ssm send-command --region $REGION --document-name "AWS-RunShellScript" --instance-ids "$INSTANCE_ID" --parameters '{"commands":["#!/bin/bash","docker-compose down","docker image rm -f $DOCKER_REGISTRY/gotham-api","docker-compose up"]}'

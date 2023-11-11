@@ -30,7 +30,7 @@ defmodule TimemanagerWeb.Router do
     pipe_through [:api, :authenticated]
 
     resources "/users", UserController
-    get "users/current", UserController, :current
+    get "/users/current", UserController, :current
 
     resources "/clocks", ClockController, except: [:create, :show]
     post "/clocks/:userID", ClockController, :create

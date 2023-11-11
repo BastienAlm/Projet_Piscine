@@ -38,7 +38,7 @@ defmodule TimemanagerWeb.TeamController do
     teamlead = if Map.get(team_params, "teamlead") !== nil do
        Users.get_user!(Map.get(team_params,"teamlead")).email
     else
-      team.lead
+      team.teamlead
     end
 
     newteam_params = Map.merge(team_params, %{"teamlead" => teamlead})
