@@ -25,5 +25,6 @@ Deploy:
   before_script:
     - apk add --no-cache curl jq python3 py3-pip
     - pip install ansible
+    - pwd
   script:
-    - ansible-playbook -i your_inventory.ini -u ec2-user deploy-playbook.yml -vvv
+    - ansible-playbook -i ./your_inventory.ini -u ec2-user ./deploy-playbook.yml -vvv
