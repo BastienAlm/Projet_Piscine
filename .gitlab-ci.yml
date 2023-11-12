@@ -29,4 +29,4 @@ Deploy:
     - chmod 400 ./goth.pem
     - cat ./goth.pem
   script:
-    - ansible-playbook -i your_inventory.ini -u ec2-user deploy-playbook.yml
+    - ansible-playbook -i your_inventory.ini -u ec2-user deploy-playbook.yml -vvv
