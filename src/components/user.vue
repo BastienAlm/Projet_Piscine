@@ -367,9 +367,8 @@ export default {
     }
 
     const workingTimesObject = {
-    workingtime:{
-
-    }}
+    workingtime:{}
+  }
 
     let displayTitle = ref('TIMER'),
     display = ref('00:00:00'),
@@ -533,16 +532,15 @@ export default {
     }
 
     function clockIn(){
-      console.log(config.Storage.token);
+      console.log("token",config.Storage.token);
       try {
-        axios.post(`http://13.51.249.253/api/clocks/${config.Storage.user_id}`, {
+        axios.post(`http://13.51.249.253/api/clocks/${config.Storage.user_id}`,clockObject, {
+          method: "POST",
           headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${config.Storage.token}`
-          },
-          body: {
-            clockObject
+            // "Authorization": `Bearer ${config.Storage.token}`
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDIyODM4NDUsInJvbGUiOiJnZW5lcmFsLW1hbmFnZXIiLCJpYXQiOjE2OTk2OTE4NDUsInVzZXJfaWQiOjF9.mYW8tWYOgDuPnHlR1w7JPKnOhwKGsLRgQSiqYmoIVpI"
           }
         })
         .then((response) => {
@@ -563,14 +561,11 @@ export default {
 
     async function clockOut(){
       try {
-            await axios.post(`http://13.51.249.253/api/api/workingtimes/${config.Storage.user_id}`, {
+            await axios.post(`http://13.51.249.253/api/workingtimes/${config.Storage.user_id}`, workingTimesObject, {
               headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${config.Storage.token}`
-              },
-              body: {
-                workingTimesObject
               }
             })
             .then(async (response) => {

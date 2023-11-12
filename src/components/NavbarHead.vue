@@ -18,13 +18,18 @@ export default {
             const generalManagerPages = [
                 {
                     id: 1,
-                    name: 'generalManager',
-                    path: '/generalManager',
+                    name: 'workingtimes',
+                    path: '/workingTimes/1',
                 },
                 {
                     id: 2,
-                    name: 'user',
-                    path: '/user',
+                    name: 'workingtime',
+                    path: '/workingTime/1/1',
+                },
+                {
+                    id: 3,
+                    name: 'chartManager',
+                    path: '/chartManager/1',
                 }
             ];
             const managerPages = [

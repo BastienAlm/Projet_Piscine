@@ -90,7 +90,7 @@ export default defineComponent({
     },
     createWorkingTime() {
       try {
-        axios.post("http://localhost:4000/api/workingtimes/1", this.workingTimesObject)
+        axios.post("http://13.51.249.253/api/workingtimes/1", this.workingTimesObject)
         .then((response) => {
           
           alert("workingTimes created");
@@ -108,7 +108,7 @@ export default defineComponent({
     },
     removeWorkingTime(id) {
       try {
-        axios.post(`http://localhost:4000/api/workingtimes/${id}`)
+        axios.post(`http://13.51.249.253/api/workingtimes/${id}`)
         .then((response) => {
          
           alert("workingTimes deleted");
@@ -155,8 +155,7 @@ export default defineComponent({
       <div class='demo-app-sidebar-section'>
         <h2 >Instructions</h2>
         <ul>
-          <li>Select dates and you will be prompted to create a new clockTime</li>
-          <li>Drag, drop, and resize worksTimes / clockTimes</li>
+          <li>Select dates and you will be prompted to update working</li>
           <li>Click an workingTime to delete it</li>
         </ul>
       </div>
