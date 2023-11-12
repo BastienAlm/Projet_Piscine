@@ -1,6 +1,6 @@
 <template>
   <main class="row">
-    <component :is="$route.meta.layout || 'div'" @start="console.log('start')">
+    <component :is="$route.meta.layout || 'div'">
       <install-prompt></install-prompt>
       <router-view></router-view>
     </component>

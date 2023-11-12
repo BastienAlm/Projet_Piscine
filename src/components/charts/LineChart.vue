@@ -33,9 +33,13 @@ export default {
     async getData(){
       const value = await config.workingTimes();
       let datas = value.data.data.map((rep) => rep.start);
-      const date = datas.map((rep) => new Date(rep))      
+      let datasEnd = value.data.data.map((rep) => rep.end);
+      const date = datas.map((rep) => new Date(rep))
+      const date2 = datasEnd.map((rep) => new Date(rep))
+      let dateFinal = date2.map((rep, index) => rep.getHours() - date[index].getHours());      
       this.labels = date.map((rep) => config.getMonth(rep));
-      this.minutes = date.map((rep) => config.getHour(rep))
+      // this.minutes = date.map((rep) => config.getHour(rep))
+      this.minutes = dateFinal
     }
   },
   computed:{

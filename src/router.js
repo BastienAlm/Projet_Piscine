@@ -91,16 +91,6 @@ const router = createRouter({
     routes,
 });
 
-// Vérouillage de la partie admin (token)
-// router.beforeEach((to) => {
-//    console.log(to.matched[0].name);
-//    if (
-//     // make sure the user is authenticated
-//     !isAuthenticated() 
-//   ) {
-//     // redirect the user to the login page
-//     return { name: 'Login' }
-// }});
 
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login'];

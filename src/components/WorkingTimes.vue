@@ -94,8 +94,10 @@ export default {
     },
     getDay(datetime) {
       const date = new Date(datetime); // Replace this with your actual date object
-      const day = date.getDay();
-      return day;
+      const format = datetime.split('/')[1];
+      // console.log(format);
+      // const day = date.getDay();
+      return format;
     },
     getDayName(datetime) {
       const date = new Date(datetime); // Replace this with your actual date object
