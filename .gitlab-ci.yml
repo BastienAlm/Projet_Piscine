@@ -14,7 +14,6 @@ Build:
   script:
     - docker build -t $DOCKER_REGISTRY/gotham-api .
     - docker tag $DOCKER_REGISTRY/gotham-api $DOCKER_REGISTRY/gotham-api:latest
-      - docker tag $DOCKER_REGISTRY/gotham-api $DOCKER_REGISTRY/gotham-api:1.0.90
     - docker push $DOCKER_REGISTRY/gotham-api:latest
 
 Deploy:
