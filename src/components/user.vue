@@ -643,7 +643,6 @@ export default {
   margin-top: 2%;
   margin-left: -40%;
 }
-
 .currentuser {
 }
 .title {
@@ -661,16 +660,25 @@ p {
   background-color: rgb(43, 194, 43);
   margin-right: 20px;
   margin-top: 15px;
+  font-size: 30px;
+}
+
+.controls {
+    position: absolute;
+    top: 105%;
+    left: 30px;
 }
 
 .PauseButton {
   background-color: rgb(255, 234, 0);
   margin-right: 20px;
+  font-size: 30px;
 }
 
 .StopButton {
   background-color: rgb(230, 0, 0);
   margin-right: 20px;
+  font-size: 30px;
 }
 
 .CountUpButton {
