@@ -75,6 +75,12 @@ export function getMinute(datetime) {
   return minute;
 }
 
+export function getHour(datetime) {
+  const date = new Date(datetime); // Replace this with your actual date object
+  const hour = date.getHours();
+  return hour;
+}
+
 const timeUnitSeconds = [
 	1,
 	60,

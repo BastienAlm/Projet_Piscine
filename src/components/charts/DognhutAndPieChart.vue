@@ -28,7 +28,7 @@ export default {
       let datas = value.data.data.map((rep) => rep.start);
       const date = datas.map((rep) => new Date(rep))      
       this.labels = date.map((rep) => config.getMonth(rep));
-      this.minutes = date.map((rep) => config.getMinute(rep))
+      this.minutes = date.map((rep) => config.getHour(rep))
       this.colors = date.map((rep) => this.generateRandomColor())
       // console.log(this.labels);
     },
