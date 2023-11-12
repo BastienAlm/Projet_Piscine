@@ -28,9 +28,9 @@
 
       <div>
         <h4>Current employee</h4>
-        <p>User id:&nbsp {{ user.id }}</p>
-        <p>Username:&nbsp {{ user.username }}</p>
-        <p>Email:&nbsp {{ user.email }}</p>
+        <!-- <p>User id:&nbsp {{ user.id }}</p> -->
+        <p>Username:&nbsp {{ users.username }}</p>
+        <p>Email:&nbsp {{ users.email }}</p>
       </div>
 
       <div style="margin-top: -2%">
@@ -144,27 +144,27 @@
       <!-- <WorkingTime @start="console.log('start')"/> -->
      
     </div>
-    <div class="controls" >
+    <div v-if='isRunning' class="controls" >
       <!--<button class='bg-green-600 hover:bg-green-700 text-white focus:ring-2 focus:ring-green-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button'  v-if='!isStarted' @click="start">-->
-        <button  class="PlayButton" v-if='!isStarted' @click="fnNext">
+        <button  class="PlayButton" @click='start' v-if='!isStarted'>
         <!-- <Icon icon="clarity:play-solid" :inline="true" /> -->
         <font-awesome-icon icon="fa-solid fa-play" />
         Start
       </button>
       <!--<button class='bg-yellow-600 hover:bg-yellow-700 text-white focus:ring-2 focus:ring-yellow-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='pause' v-else>-->
-        <button class="PauseButton" @click="fnClose">
+        <button class="PauseButton" @click='pause' v-else>
         <!--<Icon icon="clarity:pause-solid" :inline="true" />-->
         <font-awesome-icon icon="fa-solid fa-pause" />
         Pause
       </button>
       <!--<button class='bg-red-600 hover:bg-red-700 text-white focus:ring-2 focus:ring-red-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='stop' v-if='!isStopped'>-->
-        <button class="StopButton" @click="$parent.$emit('stop')">
+        <button class="StopButton" @click='stop' v-if='!isStopped'>
         <!--<Icon icon="clarity:stop-solid" :inline="true" />-->
         <font-awesome-icon icon="fa-solid fa-stop" />
         Stop
       </button>
       <!--<button class='bg-blue-700 hover:bg-blue-800 text-white focus:ring-2 focus:ring-blue-200 transition ease-in-out rounded p-2 text-sm font-semibold mr-1' type='button' @click='countup' v-if='!countingUp'>-->
-        <button class="CountUpButton" @click="$parent.$emit('countingUp')">
+        <button class="CountUpButton" @click='countup' v-if='!countingUp'>
         <!--<Icon icon="clarity:plus-circle-solid" :inline="true" />-->
         <font-awesome-icon icon="fa-solid fa-circle-plus" />
         Count Up
@@ -177,9 +177,10 @@
 import axios from 'axios';
 import Header from './Header.vue';
 import NavbarHead from './NavbarHead.vue';
-import { ref, computed } from 'vue';
+import { ref, computed, onUpdated } from 'vue';
 import {useRoute} from 'vue-router'
 import WorkingTime from './WorkingTime.vue';
+import * as config from './event-utils';
 export default {
   name: "User",
   components: {
@@ -194,17 +195,17 @@ export default {
       id: "",
       idDel: "",
       posts: [],
+      NewUser: {
+        user:{
+          email:"",
+          username:"",
+          role: "employee"
+        }
+      },
       user: {
         id: "",
         email: "",
         username: "",
-      },
-      NewUser: {
-        user:{
-            email:"",
-            username:"",
-            role: "employee"
-        }
       },
       ReloadUser: {
         id: "",
@@ -213,23 +214,40 @@ export default {
       },
     };
   },
+  computed: {
+    users() {
+      this.getUser();
+      return {
+        id: this.user.id,
+        email: this.user.email,
+        username: this.user.username,
+      };
+    }
+  },
   methods: {
     async getUser() {
+      console.log(config.Storage.user_id);
       try {
-        let response = await fetch(
+        const response = await axios.get(
           `http://13.51.249.253/api/users/${
-            this.id
-          }`);
-          const data = await response.json(); 
-                 // ).then((data) => {
-        //     console.log( await data.json());
-           this.user.id = data.data.id;
-           this.user.email = data.data.email;
-           this.user.username = data.data.username;
+            config.Storage.user_id
+          }`, {
+            method: "GET",
+            headers: {
+              "Accept": "application/json",
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${config.Storage.token}`
+            }
+          });
+          console.log(response.data.data);
+          const data = response.data.data; 
+           this.user.id = data.id;
+           this.user.email = data.email;
+           this.user.username = data.username;
 
-          this.UpdateUser.id = data.data.id;
-          this.UpdateUser.email = data.data.email;
-          this.UpdateUser.username = data.data.username;
+          // this.UpdateUser.id = data.data.id;
+          // this.UpdateUser.email = data.data.email;
+          // this.UpdateUser.username = data.data.username;
           console.log(data);
         
       } catch (error) {
@@ -294,14 +312,36 @@ export default {
         console.log(error);
       }
     },
-    fnNext(){
-      console.log("next");
-    }
+  },
+  created() {
+    console.log("created User");
+    this.getUser();
+  },
+  beforeUpdate() {
+    // this.$router.go();
+    this.getUser();
+
+  },
+  beforeMount() {
+    this.getUser();
+  },
+  onUpdated() {
+    this.getUser();
   },
   setup() {
 
+    const user = computed(() => {
+      
+      return {
+        user: {
+        id: "",
+        email: "",
+        username: "",
+      },
+      }
+    })
     const route =useRoute();
-    // const path = computed(() =>route.path)
+    const path = computed(() =>route.path)
     const timeUnitSeconds = [
       1,
       60,
@@ -345,7 +385,7 @@ export default {
     frameInterval = () => {}
     
 
-    // const isRunning = ref (path.value == "/workingTime/1/1" ? true : false)
+    const isRunning = computed(() => (path.value == "/workingTime/1/1" ? true : false))
 
     function start() {
       console.log("je start");
@@ -493,9 +533,20 @@ export default {
     }
 
     function clockIn(){
+      console.log(config.Storage.token);
       try {
-        axios.post("http://localhost:4000/api/clocks/1", clockObject)
+        axios.post(`http://13.51.249.253/api/clocks/${config.Storage.user_id}`, {
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${config.Storage.token}`
+          },
+          body: {
+            clockObject
+          }
+        })
         .then((response) => {
+          console.log(response.data.data);
           
           console.log("clock created");
         }).catch(
@@ -512,7 +563,16 @@ export default {
 
     async function clockOut(){
       try {
-            await axios.post(`http://localhost:4000/api/workingtimes/1`, workingTimesObject)
+            await axios.post(`http://13.51.249.253/api/api/workingtimes/${config.Storage.user_id}`, {
+              headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${config.Storage.token}`
+              },
+              body: {
+                workingTimesObject
+              }
+            })
             .then(async (response) => {
           alert("workingTime cretaed")
             }).catch((error) => {
@@ -535,8 +595,10 @@ export default {
       targetTimestamp,
       pausedDifference,
       isBlinking,
-      // isRunning,
+      isRunning,
       start,
+      pause,
+      stop,
       frameInterval,
       updateDisplay,
       countup,

@@ -33,6 +33,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import * as config from './event-utils';
 export default {
   name: 'WorkingTimes',
   data() {
@@ -55,9 +56,17 @@ export default {
   },
   methods: {
     getWorkingTimes(){
+      var options = {  
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.Storage.token}`
+      },
+      };
       console.log(this.$route.params.userId );
       // axios.get(`http://localhost:4000/api/workingtimes/${this.$route.params.userId}`)
-      axios.get(`http://13.51.249.253/api/workingtimes/${this.$route.params.userId}`)
+      axios.get("http://13.51.249.253/api/workingtimes/1", options)
       .then((response) => {
         console.log(response.data.data);
         console.log(this.dateFormat(response.data.data[0].end));
@@ -119,6 +128,7 @@ export default {
     }
   },
   created() {
+    console.log("created");
     this.getWorkingTimes();
   }
   

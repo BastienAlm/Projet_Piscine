@@ -1,13 +1,77 @@
 <template>
     <div class="nav">
-        <router-link to="/workingTimes/1">WorkingTimes</router-link>
-        <router-link  to="/workingTime/1/1">WorkingTime</router-link>
-        <router-link to="/chartManager/1">chart</router-link>
+        <router-link v-for="page in currentRouteName" :key="page.id" :to=page.path>{{page.name}}</router-link>
+        <router-link @click="logout" to="#">Logout</router-link>
     </div>
 </template>
 <script>
 export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    methods: {
+        logout(){
+            localStorage.removeItem('token');
+        }
+    },
+    computed: {
+        currentRouteName() {
+            const storage = JSON.parse(localStorage.getItem('token'));
+            const generalManagerPages = [
+                {
+                    id: 1,
+                    name: 'generalManager',
+                    path: '/generalManager',
+                },
+                {
+                    id: 2,
+                    name: 'user',
+                    path: '/user',
+                }
+            ];
+            const managerPages = [
+                {
+                    id: 1,
+                    name: 'workingtimes',
+                    path: '/workingTimes/1',
+                },
+                {
+                    id: 2,
+                    name: 'workingtime',
+                    path: '/workingTime/1/1',
+                },
+                {
+                    id: 3,
+                    name: 'chart',
+                    path: '/chartManager/1',
+                }
+            ];
+            const userPages = [
+                {
+                    id: 1,
+                    name: 'user',
+                    path: '/user',
+                },
+                {
+                    id: 2,
+                    name: 'test',
+                    path: '/test',
+                }
+            ];
+            switch (storage.user_role) {
+                case "user":
+                    return userPages;
+                    break;
+                case "manager":
+                    return managerPages;
+                    break;
+                case "general-manager":
+                    return generalManagerPages;
+                    break;
+                default:
+                    break;
+            }
+        },
+
+    }   
 }
 </script>
 <style>

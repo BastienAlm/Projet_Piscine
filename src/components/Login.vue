@@ -12,9 +12,9 @@
             <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
                <h1>Sign In</h1>
                <form class="form-group" @submit.prevent="doLogin">
-                  <!-- <input v-model="emailLogin" type="email" class="form-control" placeholder="Email" required> -->
-                  <input v-model="idLogin" type="number" class="form-control" placeholder="Id" required>
-                  <!-- <input v-model="passwordLogin" type="password" class="form-control" placeholder="Password" required> -->
+                  <input v-model="user.email" type="email" class="form-control" placeholder="Email" required>
+                  <!-- <input v-model="idLogin" type="number" class="form-control" placeholder="Id" required> -->
+                  <input v-model="user.password" type="password" class="form-control" placeholder="Password" required>
                   <input type="submit" class="btn btn-primary">
                   <p>Don't have an account? <a href="#" @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
                   </p>
@@ -43,6 +43,7 @@
 
 <script>
 import PWAPrompt from './PWAPrompt.vue';
+import axios from 'axios';
 export default {
   name: "Login",
   components:{
@@ -57,13 +58,17 @@ export default {
       emailReg: "",
       passwordReg: "",
       confirmReg: "",
-      emptyFields: false
+      emptyFields: false,
+      user: {
+        email:"",
+        password:""
+      }
     }
   },
   methods:{
     doLogin() {
-      // if (this.emailLogin === "" || this.passwordLogin === "") {
-        if (this.idLogin === "" ) {
+      if (this.user.email === "" || this.user.password === "") {
+        // if (this.idLogin === "" ) {
         this.emptyFields = true;
       } else {
         this.getUser();
@@ -77,20 +82,34 @@ export default {
       }
     },
     async getUser() {
+
       try {
-        let response = await fetch(
-          `http://localhost:4000/api/users/${
-            this.idLogin
-          }`);
-          const data = await response.json(); 
-                 // ).then((data) => {
-        //     console.log( await data.json());
-        localStorage.setItem('user', JSON.stringify(data.data));
-        console.log(data.data);
-        this.$router.push("workingTimes/1")
+        axios.post(
+          "http://13.51.249.253/api/users/sign_in", this.user
+          ).then(async (response) => {
+          
+          //console.log( await data.json());
+          localStorage.setItem('token', JSON.stringify(response.data.token));
+          console.log(response);
+          this.$router.push("workingTimes/1")
+          })
+         
       } catch (error) {
         console.log(error);
       }
+
+      // try{
+      //   fetch('URL_GOES_HERE', { 
+      //     method: 'post', 
+      //     headers: new Headers({
+      //         'Authorization': 'Basic '+btoa('username:password'), 
+      //         'Content-Type': 'application/x-www-form-urlencoded'
+      //     }), 
+      //     body: 'A=1&B=2'
+      // });
+      // }catch (error) {
+      //   console.log(error);
+      // }
       
     },
   }

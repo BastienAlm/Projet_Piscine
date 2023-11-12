@@ -4,9 +4,19 @@ let eventGuid = 0
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
 export const workingsTable = []
 
+export const Storage = JSON.parse(localStorage.getItem('token')) ? JSON.parse(localStorage.getItem('token')) : {token: ""}
+
 export let INITIAL_EVENT = []
 export const dataItems = []
 
+export var options = {  
+	method: 'GET',
+	headers: {
+	  'Accept': 'application/json',
+	  'Content-Type': 'application/json',
+	  'Authorization': `Bearer ${Storage.token}`, // Storage.token
+	},
+};
 //export const 
 
 
@@ -15,8 +25,9 @@ export function createEventId() {
 }
 
 export async function workingTimes() {
+
     try {
-       const result =  await axios.get("http://localhost:4000/api/workingtimes/1")
+       const result =  await axios.get(`http://13.51.249.253/api/workingtimes/${Storage.user_id}`, options)
        INITIAL_EVENT=  result.data.data.map((rep, index) => ({"id": rep.id, "title":"workingtime", "start": rep.start}));
        console.log("resultat", result.data.data);
         return result;
@@ -27,6 +38,7 @@ export async function workingTimes() {
         console.log(error)
     }
 }
+
 
 export async function getLabel(){
       
@@ -292,4 +304,4 @@ async function clockOut(){
     }
 }
 export const labels = []
-workingTimes()
+// workingTimes()

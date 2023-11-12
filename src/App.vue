@@ -9,11 +9,10 @@
 
 <script>
 import installPrompt from "./components/PWAPrompt.vue";
-
 export default {
   name: "App",
   components: {
-    installPrompt
+    installPrompt,
   },
   data() {
     return {
